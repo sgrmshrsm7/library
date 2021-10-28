@@ -12,6 +12,8 @@ import Search_mem from "./Member/search"
 import Faq_mem from "./Member/faq"
 import Reissue_mem from "./Member/reissue"
 import Search_lib from "./Librarian/search";
+import Add_lib from "./Librarian/add";
+import Updatefine_lib from "./Librarian/updatefine";
 import { Route, Switch } from "react-router-dom";
 
 function App() {
@@ -31,6 +33,8 @@ function App() {
                 <Route exact path="/member/home/faq" component={Faq_mem} />
                 <Route exact path="/member/home/reissue" component={Reissue_mem} />
                 <Route exact path="/librarian/home/search" component={Search_lib} />
+                <Route exact path="/librarian/home/add" component={Add_lib} />
+                <Route exact path="/librarian/home/updatefine" component={Updatefine_lib} />
             </Switch>
 
             {/* <Footer /> */}
