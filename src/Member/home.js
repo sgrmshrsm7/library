@@ -6,19 +6,25 @@ const home_mem = () => {
     return (
         <div >
 			<form class='cd-form' method='POST' action='#'>
-				<legend>Available books</legend>
+                <div className="loginhead">Issued books</div>
 				<div class='error-message' id='error-message'>
 						<p id='error'></p>
 				</div>
 				<table width='100%' cellpadding='10' cellspacing='10'>
                     <tr>
                             <th></th>
-                            <th>ISBN<hr></hr></th>
-                            <th>Title<hr></hr></th>
+                            <th>Name of book<hr></hr></th>
+                            <th>Edition<hr></hr></th>
                             <th>Author<hr></hr></th>
-                            <th>Category<hr></hr></th>
-                            <th>Price<hr></hr></th>
-                            <th>Copies available<hr></hr></th>
+                            <th>Publication<hr></hr></th>
+                    </tr>
+
+                    <tr>
+                            <th></th>
+                            <td>xodufh</td>
+                            <td>54</td>
+                            <td>Author</td>
+                            <td>Publication</td>
                     </tr>
 
                     <tr>
