@@ -8,7 +8,7 @@ const updatefine_lib = () => {
             <form className="loginform" method="GET" action="/member/home">
                 <div className="loginhead">Update fine</div>
 
-                <input type="submit" value="update" name="m_login" />
+                <input type="submit" value="Update" name="m_login" />
             </form>
         </div>
 
