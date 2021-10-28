@@ -1,7 +1,5 @@
 import React from "react";
 
-import "./header_librarian_style.css";
-
 const index_lib = () => {
     return (
         <div>
