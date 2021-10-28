@@ -8,6 +8,8 @@ import Lib from "./Librarian/index";
 import Lib_home from "./Librarian/home";
 import Register_member from "./Member/register";
 import Home_member from "./Member/home";
+import Search_mem from "./Member/search"
+import Faq_mem from "./Member/faq"
 import { Route, Switch } from "react-router-dom";
 
 function App() {
@@ -23,6 +25,8 @@ function App() {
                 <Route exact path="/librarian/home" component={Lib_home} />
                 <Route exact path="/register" component={Register_member} />
                 <Route exact path="/member/home" component={Home_member} />
+                <Route exact path="/member/home/search" component={Search_mem} />
+                <Route exact path="/member/home/faq" component={Faq_mem} />
             </Switch>
 
             {/* <Footer /> */}
