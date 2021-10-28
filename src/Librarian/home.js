@@ -7,10 +7,10 @@ const home_lib = () => {
             <Link to="/register">
                 <div className="libHomeButton">Register A New Student</div>
             </Link>
-            <Link to="/">
+            <Link to="/librarian/home/updatefine">
                 <div className="libHomeButton">Update Fine Of A Student</div>
             </Link>
-            <Link to="/">
+            <Link to="/librarian/home/add">
                 <div className="libHomeButton">Add New Book</div>
             </Link>
             <Link to="/librarian/home/update">
