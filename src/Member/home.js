@@ -5,7 +5,7 @@ import React from "react";
 const home_mem = () => {
     return (
         <div >
-			<form class='cd-form' method='POST' action='#'>
+			<form class='cd-form' method='GET' action='./home/search'>
                 <div className="loginhead">Issued books</div>
 				<div class='error-message' id='error-message'>
 						<p id='error'></p>
@@ -101,6 +101,9 @@ const home_mem = () => {
                     </tr>
 				</table>
 				<br /><br /><input type='submit' name='m_request' value='Request book' />
+                                
+                                <br/>
+                                <a href="/member/home/faq">FAQ</a>
 			</form>
 
 		</div>
