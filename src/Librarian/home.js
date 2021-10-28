@@ -13,7 +13,7 @@ const home_lib = () => {
             <Link to="/">
                 <div className="libHomeButton">Add New Book</div>
             </Link>
-            <Link to="/">
+            <Link to="/librarian/home/update">
                 <div className="libHomeButton">Update Student Info</div>
             </Link>
             <Link to="/librarian/home/search">
