@@ -16,7 +16,7 @@ const home_lib = () => {
             <Link to="/">
                 <div className="libHomeButton">Update Student Info</div>
             </Link>
-            <Link to="/">
+            <Link to="/librarian/home/search">
                 <div className="libHomeButton">Availability Of A Book</div>
             </Link>
         </div>
