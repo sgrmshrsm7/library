@@ -1,13 +1,78 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap");
+
+*,
+*::after,
+*::before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+html {
+    font-size: 62.5%;
+}
+
+body {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #2b3e51;
+    background-color: #ffffff;
+    font-family: "Roboto Slab", serif;
+    height: 100%;
+    width: 100%;
+}
+
+.header {
+    margin-top: -50px;
+    height: 150px;
+    background: #343642;
+    padding: 25px;
+}
+
+.headercontent {
+    margin: 0%;
+}
+a {
+    color: #25d0ff;
+    text-decoration: none;
+    font-size: 50px;
+    font-family: "Roboto Slab", serif;
+}
+
+#allTheThings {
+    width: 90%;
+    max-width: 100%;
+    text-align: center;
+    margin: 12% auto;
+    font-size: 1.3rem;
+    color: #94aab0;
+    display: block;
+}
+
+.homelogo {
+    font-size: 150px;
+}
+
+#member {
+    display: inline-block;
+    padding: 20px 100px;
+}
+
+#verticalLine {
+    display: inline-block;
+    border-left: solid #343642;
+}
+
+#librarian {
+    padding: 20px 100px;
+}
+
+#member,
+#librarian {
+    transition: all 0.2s ease-in-out;
+}
+
+#member:hover,
+#librarian:hover {
+    transform: scale(1.1);
 }
