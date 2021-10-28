@@ -1,5 +1,5 @@
 import React from "react";
-import "./login.css";
+
 const index_member = () => {
     return (
         <div>

@@ -76,3 +76,74 @@ a {
 #librarian:hover {
     transform: scale(1.1);
 }
+
+.loginform {
+    font-family: "Roboto Slab", serif;
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+    align-items: center;
+    /* justify-content: center; */
+    margin: 100px auto;
+    padding: 50px;
+    border-radius: 20px;
+    border: black solid 2px;
+}
+
+.loginhead {
+    color: #25d0ff;
+    font-size: 40pt;
+    font-weight: bold;
+}
+
+input {
+    border: 1px solid #777;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 20pt;
+    margin: 30px auto;
+}
+
+input[type="submit"] {
+    padding: 10px 50px;
+    background-color: #25d0ff;
+    color: white;
+    font-weight: bold;
+    font-size: 20pt;
+    width: 300px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: white;
+    color: #25d0ff;
+    box-shadow: #25d0ff 0 0 20px;
+}
+
+.librarianhome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 5% auto;
+}
+
+.libHomeButton {
+    padding: 20px 50px;
+    background-color: #25d0ff;
+    color: white;
+    font-weight: bold;
+    font-size: 20pt;
+    width: 500px;
+    cursor: pointer;
+    text-align: center;
+    border: 1px solid #777;
+    border-radius: 10px;
+    margin: 30px auto;
+}
+
+.libHomeButton:hover {
+    background-color: white;
+    color: #25d0ff;
+    box-shadow: #25d0ff 0 0 20px;
+}
