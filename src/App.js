@@ -24,11 +24,7 @@ function App() {
                 <Route exact path="/member" component={Member} />
                 <Route exact path="/librarian" component={Lib} />
                 <Route exact path="/librarian/home" component={Lib_home} />
-                <Route
-                    exact
-                    path="/member/register"
-                    component={Register_member}
-                />
+                <Route exact path="/register" component={Register_member} />
                 <Route exact path="/member/home" component={Home_member} />
                 <Route exact path="/member/home/search" component={Search_mem} />
                 <Route exact path="/member/home/faq" component={Faq_mem} />

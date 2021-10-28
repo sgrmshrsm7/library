@@ -9,37 +9,28 @@ const faq_mem = () => {
             <div class="faq-container">
             <div class="faq-one">
                 
-                <h1 class="faq-page">What is an FAQ Page?</h1>
+                <h1 class="faq-page">How much is the fine for each book if we fail to renew on time ?</h1>
                 
                 <div class="faq-body">
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit saepe sequi, illum facere
-                        necessitatibus cum aliquam id illo omnis maxime, totam soluta voluptate amet ut sit ipsum
-                        aperiam.
-                        Perspiciatis, porro!</p>
+                    <p>On each book student get a penalty of 10 INR on each period delay.</p>
                 </div>
             </div>
             
             <div class="faq-two">
                 
-                <h1 class="faq-page">Why do you need an FAQ page?</h1>
+                <h1 class="faq-page">What site we can refer to for basic HTML course ?</h1>
                 
                 <div class="faq-body">
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit saepe sequi, illum facere
-                        necessitatibus cum aliquam id illo omnis maxime, totam soluta voluptate amet ut sit ipsum
-                        aperiam.
-                        Perspiciatis, porro!</p>
+                    <p>There are numerous sites but "W3schools" is prefered by most of the students.</p>
                 </div>
             </div>
             
             <div class="faq-three">
                 
-<h1 class="faq-page">Does it improves the user experience of a website?</h1>
+            <h1 class="faq-page">What book is prefered for C Programming ?</h1>
                 
                 <div class="faq-body">
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit saepe sequi, illum facere
-                        necessitatibus cum aliquam id illo omnis maxime, totam soluta voluptate amet ut sit ipsum
-                        aperiam.
-                        Perspiciatis, porro!</p>
+                    <p>Let Us C by Yashavant Kanetkar.</p>
                 </div>
             </div>
         
