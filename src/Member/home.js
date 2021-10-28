@@ -59,6 +59,8 @@ const home_mem = () => {
                                 
                                 <br/>
                                 <a href="/member/home/faq">FAQ</a>
+                                <br />
+                                <a href="/member/home/reissue">Reissue books</a>
 			</form>
 
 		</div>

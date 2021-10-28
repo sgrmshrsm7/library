@@ -10,6 +10,7 @@ import Register_member from "./Member/register";
 import Home_member from "./Member/home";
 import Search_mem from "./Member/search"
 import Faq_mem from "./Member/faq"
+import Reissue_mem from "./Member/reissue"
 import { Route, Switch } from "react-router-dom";
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
                 <Route exact path="/member/home" component={Home_member} />
                 <Route exact path="/member/home/search" component={Search_mem} />
                 <Route exact path="/member/home/faq" component={Faq_mem} />
+                <Route exact path="/member/home/reissue" component={Reissue_mem} />
             </Switch>
 
             {/* <Footer /> */}
