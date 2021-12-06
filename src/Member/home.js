@@ -103,13 +103,13 @@ const home_mem = () => {
             </table>
 
             <div className="studentButtons">
-                <Link to="/member/home/reissue">
+                <Link to="/member/reissue">
                     <div className="studHomeButton">Reissue books</div>
                 </Link>
-                <Link to="/member/home/search">
+                <Link to="/member/search">
                     <div className="studHomeButton">Search Book</div>
                 </Link>
-                <Link to="/member/home/faq">
+                <Link to="/faq">
                     <div className="studHomeButton">FAQ</div>
                 </Link>
             </div>
