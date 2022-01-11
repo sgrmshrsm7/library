@@ -20,11 +20,11 @@ const port = 3000;
 
 const mongoose = require("mongoose");
 
-// const url =
-//     "mongodb+srv://libraryuser:1gY4SSwU5GRMXsf1@librarycluster.tx9jj.mongodb.net/Library?retryWrites=true&w=majority";
+const dotenv = require("dotenv");
 
-const url =
-    "mongodb+srv://libraryuser:1gY4SSwU5GRMXsf1@librarycluster.tx9jj.mongodb.net/Library?retryWrites=true&w=majority";
+dotenv.config({ path: "./config.env" });
+
+const url = process.env.DATABASE;
 
 mongoose.connect(url, function (err, db) {
     if (err) throw err;
