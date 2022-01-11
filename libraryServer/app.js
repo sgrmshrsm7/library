@@ -1,78 +1,51 @@
 const express = require("express");
 const app = express();
 const port = 3000;
-const mongoose = require("mongoose");
-const { MongoClient } = require("mongodb");
 
-const memberURL =
-    "mongodb+srv://libraryuser:1gY4SSwU5GRMXsf1@librarycluster.tx9jj.mongodb.net/member?retryWrites=true&w=majority";
-
-const booksURL =
-    "mongodb+srv://libraryuser:1gY4SSwU5GRMXsf1@librarycluster.tx9jj.mongodb.net/books?retryWrites=true&w=majority";
-
-const adminURL =
-    "mongodb+srv://libraryuser:1gY4SSwU5GRMXsf1@librarycluster.tx9jj.mongodb.net/admin?retryWrites=true&w=majority";
-
-// const { MongoClient } = require('mongodb');
-// const uri = "mongodb+srv://libraryuser:<password>@librarycluster.tx9jj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-// client.connect(err => {
-//   const collection = client.db("test").collection("devices");
-//   // perform actions on the collection object
-//   client.close();
+// const { MongoClient } = require("mongodb");
+// const uri =
+//     "mongodb+srv://libraryuser:1gY4SSwU5GRMXsf1@librarycluster.tx9jj.mongodb.net/Library?retryWrites=true&w=majority";
+// const client = new MongoClient(uri, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
 // });
 
-const memberClient = new MongoClient(memberURL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
-const booksClient = new MongoClient(booksURL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
-const adminClient = new MongoClient(adminURL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+// client.connect((err) => {
+//     const admin = client.db("admin");
+//     const books = client.db("books");
+//     const member = client.db("member");
+//     console.log("Connected to the database");
+//     client.close();
+// });
 
-memberClient.connect((err) => {
-    const collection = memberClient.db("member").collection("devices");
-    // perform actions on the collection object
-    console.log("Connected to member database");
+const mongoose = require("mongoose");
 
-    // Defining schema for the collection
-    const memberSchema = new mongoose.Schema({
-        name: {
-            type: String,
-            required: true,
+// const url =
+//     "mongodb+srv://libraryuser:1gY4SSwU5GRMXsf1@librarycluster.tx9jj.mongodb.net/Library?retryWrites=true&w=majority";
+
+const url =
+    "mongodb+srv://libraryuser:1gY4SSwU5GRMXsf1@librarycluster.tx9jj.mongodb.net/Library?retryWrites=true&w=majority";
+
+mongoose.connect(url, function (err, db) {
+    if (err) throw err;
+    console.log("Database connected!");
+    // dbo = db("Library");
+    db.collection("admin").insertOne(
+        {
+            name: "Murkute",
+            id: 2,
+            password: "123",
+            pendingFine: 1000000,
+            year: 2020,
+            email: "",
+            books: "",
         },
-        id: Number,
-        password: String,
-        pendingFine: Number,
-        year: Number,
-        email: String,
-        books: String,
-    });
-
-    // Defining model for the collection: Creating the collection.
-    const Member = new mongoose.model("Member", memberSchema);
-
-    // Create or Insert document
-    const member = new Member({
-        name: "John",
-        id: 1,
-        password: "123",
-        pendingFine: 0,
-        year: 2020,
-        email: "",
-        books: "",
-    });
-    // Saving it in the database.
-    member.save(function (err, results) {
-        console.log(results._id);
-    });
-
-    memberClient.close();
+        function (err, res) {
+            if (err) throw err;
+            console.log("1 document inserted");
+        }
+    );
+    db.close();
 });
 
 // Middleware
