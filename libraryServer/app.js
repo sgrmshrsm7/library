@@ -26,28 +26,6 @@ dotenv.config({ path: "./config.env" });
 
 const url = process.env.DATABASE;
 
-// mongoose.connect(url, function (err, db) {
-//     if (err) throw err;
-//     console.log("Database connected!");
-//     // dbo = db("Library");
-//     db.collection("admin").insertOne(
-//         {
-//             name: "Murkute",
-//             id: 2,
-//             password: "123",
-//             pendingFine: 1000000,
-//             year: 2020,
-//             email: "",
-//             books: "",
-//         },
-//         function (err, res) {
-//             if (err) throw err;
-//             console.log("1 document inserted");
-//         }
-//     );
-//     db.close();
-// });
-
 // make a connection
 mongoose.connect(url);
 
