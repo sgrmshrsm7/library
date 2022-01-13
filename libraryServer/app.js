@@ -26,26 +26,69 @@ dotenv.config({ path: "./config.env" });
 
 const url = process.env.DATABASE;
 
-mongoose.connect(url, function (err, db) {
-    if (err) throw err;
-    console.log("Database connected!");
-    // dbo = db("Library");
-    db.collection("admin").insertOne(
-        {
-            name: "Murkute",
-            id: 2,
-            password: "123",
-            pendingFine: 1000000,
-            year: 2020,
-            email: "",
-            books: "",
-        },
-        function (err, res) {
-            if (err) throw err;
-            console.log("1 document inserted");
-        }
-    );
-    db.close();
+// mongoose.connect(url, function (err, db) {
+//     if (err) throw err;
+//     console.log("Database connected!");
+//     // dbo = db("Library");
+//     db.collection("admin").insertOne(
+//         {
+//             name: "Murkute",
+//             id: 2,
+//             password: "123",
+//             pendingFine: 1000000,
+//             year: 2020,
+//             email: "",
+//             books: "",
+//         },
+//         function (err, res) {
+//             if (err) throw err;
+//             console.log("1 document inserted");
+//         }
+//     );
+//     db.close();
+// });
+
+// make a connection
+mongoose.connect(url);
+
+// get reference to database
+var db = mongoose.connection;
+
+db.on("error", console.error.bind(console, "connection error:"));
+
+db.once("open", function () {
+    console.log("Connection Successful!");
+
+    // define Schema
+    var AdminSchema = mongoose.Schema({
+        name: String,
+        id: Number,
+        password: String,
+        pendingFine: Number,
+        year: Number,
+        email: String,
+        books: String,
+    });
+
+    // compile schema to model
+    var Admin = mongoose.model("Admin", AdminSchema, "admin");
+
+    // a document instance
+    var admin1 = new Admin({
+        name: "Murkute",
+        id: 2,
+        password: "123",
+        pendingFine: 1000000,
+        year: 2020,
+        email: "",
+        books: "",
+    });
+
+    // save model to database
+    admin1.save(function (err, admin) {
+        if (err) return console.error(err);
+        console.log(admin.name + " saved to admin.");
+    });
 });
 
 // Middleware
@@ -106,5 +149,3 @@ app.get("/librarian/updatefine", (req, res) => {
 app.listen(port, () => {
     console.log(`Server is running at port ${port}`);
 });
-
-// member
