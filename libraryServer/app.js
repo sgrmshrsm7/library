@@ -1,73 +1,20 @@
 const express = require("express");
 const app = express();
-const port = 3000;
-
-// const { MongoClient } = require("mongodb");
-// const uri =
-//     "mongodb+srv://libraryuser:1gY4SSwU5GRMXsf1@librarycluster.tx9jj.mongodb.net/Library?retryWrites=true&w=majority";
-// const client = new MongoClient(uri, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-// });
-
-// client.connect((err) => {
-//     const admin = client.db("admin");
-//     const books = client.db("books");
-//     const member = client.db("member");
-//     console.log("Connected to the database");
-//     client.close();
-// });
 
 const mongoose = require("mongoose");
 
 const dotenv = require("dotenv");
-
 dotenv.config({ path: "./config.env" });
 
-const url = process.env.DATABASE;
+const port = process.env.PORT;
 
-// make a connection
-mongoose.connect(url);
+// // Database connection
+// require("./db/conn");
 
-// get reference to database
-var db = mongoose.connection;
+app.use(express.json());
 
-db.on("error", console.error.bind(console, "connection error:"));
-
-db.once("open", function () {
-    console.log("Connection Successful!");
-
-    // define Schema
-    var AdminSchema = mongoose.Schema({
-        name: String,
-        id: Number,
-        password: String,
-        pendingFine: Number,
-        year: Number,
-        email: String,
-        books: String,
-    });
-
-    // compile schema to model
-    var Admin = mongoose.model("Admin", AdminSchema, "admin");
-
-    // a document instance
-    var admin1 = new Admin({
-        name: "Murkute",
-        id: 2,
-        password: "123",
-        pendingFine: 1000000,
-        year: 2020,
-        email: "",
-        books: "",
-    });
-
-    // save model to database
-    admin1.save(function (err, admin) {
-        if (err) return console.error(err);
-        console.log(admin.name + " saved to admin.");
-    });
-});
+// Router
+app.use(require("./router/auth"));
 
 // Middleware
 const middleware = (req, res, next) => {
@@ -75,6 +22,8 @@ const middleware = (req, res, next) => {
     // Here we will add code to check whether the user is logged in or not.
     next();
 };
+
+////////////////////////////////////////////////////////////////////////////////////////////
 
 app.get("/", (req, res) => {
     res.send("Hello from the home page");
