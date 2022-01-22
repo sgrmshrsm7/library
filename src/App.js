@@ -14,6 +14,8 @@ import Reissue_mem from "./Member/reissue";
 import Search_lib from "./Librarian/search";
 import Update_lib from "./Librarian/update";
 import Add_lib from "./Librarian/add";
+import Search_name from "./Librarian/searchbook";
+import Search_img from "./Librarian/searchbookimg";
 import Updatefine_lib from "./Librarian/updatefine";
 import { Route, Switch } from "react-router-dom";
 
@@ -36,6 +38,8 @@ function App() {
                 <Route exact path="/librarian/search" component={Search_lib} />
                 <Route exact path="/librarian/update" component={Update_lib} />
                 <Route exact path="/librarian/add" component={Add_lib} />
+                <Route exact path="/librarian/search/searchbook" component={Search_name} />
+                <Route exact path="/librarian/search/searchbookimg" component={Search_img} />
                 <Route
                     exact
                     path="/librarian/updatefine"
