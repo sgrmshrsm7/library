@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 // define Schema
 var BooksSchema = mongoose.Schema({
     id: Number,
-    QRdata: String,
+    qrdata: String,
     name: String,
     edition: Number,
     author: String,

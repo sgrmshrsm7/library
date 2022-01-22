@@ -4,7 +4,7 @@ const router = express.Router();
 require("../db/conn");
 const Member = require("../model/memberSchema");
 const Librarian = require("../model/librarianSchema");
-// const Books = require("../model/booksSchema");
+const Books = require("../model/booksSchema");
 
 // Home page route
 router.get("/", (req, res) => {
@@ -66,8 +66,6 @@ router.post("/librarian", async (req, res) => {
 });
 
 // Librarian add student
-
-// Register route
 router.post("/register", async (req, res) => {
     // console.log(req.body);
     const { id, name, password, yearOfJoining, email } = req.body;
@@ -96,6 +94,102 @@ router.post("/register", async (req, res) => {
         await user.save();
         res.status(201).json({
             message: "User registered successfully",
+        });
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+// Librarian update fine
+router.post("/librarian/updatefine", async (req, res) => {
+    // console.log(req.body);
+    const { id, newfine } = req.body;
+
+    // Checking if any field is empty
+    if (!id || !newfine) {
+        return res.status(422).json({ error: "Empty field found" });
+    }
+
+    try {
+        const userExist = await Member.findOne({ id });
+        if (userExist) {
+            // update fine
+            try {
+                const result = await Member.updateOne(
+                    { id },
+                    { $set: { pendingFine: newfine } }
+                );
+                // console.log(result);
+            } catch (error) {
+                console.log(error);
+            }
+
+            res.status(200).json({ message: "Fine updated" });
+        } else {
+            return res.status(404).json({ error: "ID not found" });
+        }
+        //  await user.save();
+        // res.status(201).json({
+        //     message: "User registered successfully",
+        // });
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+// Librarian update fine
+router.post("/librarian/add", async (req, res) => {
+    // console.log(req.body);
+    const { id, qrdata, name, edition, author, publication } = req.body;
+
+    // Checking if any field is empty
+    if (!id || !qrdata || !name || !edition || !author || !publication) {
+        return res.status(422).json({ error: "Empty field found" });
+    }
+
+    try {
+        const userExist = await Books.findOne({ id });
+        if (userExist) {
+            return res.status(422).json({ error: "Book ID already exists" });
+        }
+
+        const book = new Books({
+            id: id,
+            qrdata: qrdata,
+            name: name,
+            edition: edition,
+            author: author,
+            publication: publication,
+            status: false,
+        });
+
+        await book.save();
+        res.status(201).json({
+            message: "Book registered successfully",
+        });
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+// Librarian update fine
+router.post("/searchbook", async (req, res) => {
+    // console.log(req.body);
+    const { name } = req.body;
+
+    // Checking if any field is empty
+    if (!name) {
+        return res.status(422).json({ error: "Empty field found" });
+    }
+
+    try {
+        Books.find({ name }, function (err, docs) {
+            if (!err) {
+                console.log(docs);
+                res.status(200).json(docs);
+            } else {
+                throw err;
+            }
         });
     } catch (error) {
         console.log(error);
