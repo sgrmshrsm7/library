@@ -5,9 +5,9 @@ var MemberSchema = mongoose.Schema({
     id: Number,
     password: String,
     name: String,
-    books: String,
+    booksIssued: Array,
     pendingFine: Number,
-    year: Number,
+    yearOfJoining: Number,
     email: String,
 });
 
