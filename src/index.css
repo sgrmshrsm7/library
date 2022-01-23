@@ -125,7 +125,7 @@ input[type="submit"]:hover {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 5% auto;
+    margin: 22px auto;
 }
 
 .libHomeButton {

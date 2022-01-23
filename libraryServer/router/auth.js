@@ -226,5 +226,109 @@ router.post("/librarian/update", async (req, res) => {
 });
 
 // Return book
+router.post("/librarian/returnbook", async (req, res) => {
+    // console.log(req.body);
+    const { id, bookid } = req.body;
+    let flag = false;
+    let message = "Book not issued";
+    // Checking if any field is empty
+    if (!id || !bookid) {
+        return res.status(422).json({ error: "Empty field found" });
+    }
+
+    try {
+        const userExist = await Member.findOne({ id });
+        if (userExist) {
+            // update fine
+            try {
+                booksIssued = userExist.booksIssued;
+
+                for (let i = 0; i < booksIssued.length && flag == false; i++) {
+                    if (booksIssued[i].id === bookid) {
+                        flag = true;
+                        message = "Book returned successfully";
+
+                        async function updateBook() {
+                            const result1 = await Books.updateOne(
+                                { id: bookid },
+                                { $set: { status: false } }
+                            );
+                            booksIssued.splice(i, 1);
+                            const result = await Member.updateOne(
+                                { id },
+                                { $set: { booksIssued: booksIssued } }
+                            );
+                        }
+                        updateBook();
+                    }
+                }
+            } catch (error) {
+                console.log(error);
+            }
+            res.status(200).json({ message: message });
+        } else {
+            return res.status(404).json({ error: "ID not found" });
+        }
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+// Issue book
+router.post("/librarian/issuebook", async (req, res) => {
+    // console.log(req.body);
+    const { id, bookid } = req.body;
+    // Checking if any field is empty
+    if (!id || !bookid) {
+        return res.status(422).json({ error: "Empty field found" });
+    }
+    try {
+        const userExist = await Member.findOne({ id });
+        if (userExist) {
+            // update fine
+            try {
+                const bookExist = await Books.findOne({ id: bookid });
+                if (bookExist) {
+                    console.log(bookExist);
+                    if (bookExist.status == false) {
+                        newbook = {
+                            id: bookExist.id,
+                            qrdata: bookExist.qrdata,
+                            name: bookExist.name,
+                            edition: bookExist.edition,
+                            author: bookExist.author,
+                            publication: bookExist.publication,
+                            duedate: new Date(Date.now() + 12096e5),
+                        };
+
+                        const result1 = await Books.updateOne(
+                            { id: bookid },
+                            { $set: { status: true } }
+                        );
+
+                        const result = await Member.updateOne(
+                            { id },
+                            { $push: { booksIssued: newbook } }
+                        );
+
+                        res.status(200).json({ message: "Book issued" });
+                    } else {
+                        res.status(404).json({
+                            message: "Book already issued",
+                        });
+                    }
+                } else {
+                    res.status(404).json({ error: "Book ID not found" });
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        } else {
+            return res.status(404).json({ error: "Student ID not found" });
+        }
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 module.exports = router;

@@ -1,13 +1,11 @@
 import React from "react";
 
-// import "./header_member_style.css";
-
-const update_lib = () => {
+const issuebook = () => {
     return (
         <div>
             {/* change to POST */}
             <form class="loginform" method="GET" action="/member">
-                <div className="loginhead">Update Details</div>
+                <div className="loginhead">Issue Book</div>
 
                 <div class="error-message" id="error-message">
                     <p id="error"></p>
@@ -25,19 +23,19 @@ const update_lib = () => {
 
                 <div class="icon">
                     <input
-                        class="m-pass"
-                        type="password"
-                        name="newpass"
-                        id="newpass"
-                        placeholder="New Password"
+                        class="m-user"
+                        type="text"
+                        name="bookid"
+                        id="bookid"
+                        placeholder="ID of Book"
                     />
                 </div>
 
                 <br />
-                <input type="submit" name="m_register" value="Update" />
+                <input type="submit" name="m_register" value="Issue" />
             </form>
         </div>
     );
 };
 
-export default update_lib;
+export default issuebook;
