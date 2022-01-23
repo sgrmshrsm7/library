@@ -185,7 +185,7 @@ router.post("/searchbook", async (req, res) => {
     try {
         Books.find({ name }, function (err, docs) {
             if (!err) {
-                console.log(docs);
+                // console.log(docs);
                 res.status(200).json(docs);
             } else {
                 throw err;
@@ -195,5 +195,9 @@ router.post("/searchbook", async (req, res) => {
         console.log(error);
     }
 });
+
+// Librarian update student info
+
+// Return book
 
 module.exports = router;

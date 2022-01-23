@@ -3,7 +3,7 @@ import React from "react";
 const index_member = () => {
     return (
         <div>
-            <form className="loginform" method="GET" action="/member/home">
+            <form className="loginform" method="POST" action="/member/home">
                 <div className="loginhead">Student Login</div>
 
                 <div className="error-message" id="error-message">
@@ -13,14 +13,14 @@ const index_member = () => {
                 <input
                     className="m-user"
                     type="text"
-                    name="m_user"
-                    placeholder="Username"
+                    name="id"
+                    placeholder="ID Number"
                 />
 
                 <input
                     className="m-pass"
                     type="password"
-                    name="m_pass"
+                    name="password"
                     placeholder="Password"
                 />
 
