@@ -128,10 +128,6 @@ router.post("/librarian/updatefine", async (req, res) => {
         } else {
             return res.status(404).json({ error: "ID not found" });
         }
-        //  await user.save();
-        // res.status(201).json({
-        //     message: "User registered successfully",
-        // });
     } catch (error) {
         console.log(error);
     }
@@ -197,6 +193,37 @@ router.post("/searchbook", async (req, res) => {
 });
 
 // Librarian update student info
+router.post("/librarian/update", async (req, res) => {
+    // console.log(req.body);
+    const { id, newpass } = req.body;
+
+    // Checking if any field is empty
+    if (!id || !newpass) {
+        return res.status(422).json({ error: "Empty field found" });
+    }
+
+    try {
+        const userExist = await Member.findOne({ id });
+        if (userExist) {
+            // update fine
+            try {
+                const result = await Member.updateOne(
+                    { id },
+                    { $set: { password: newpass } }
+                );
+                // console.log(result);
+            } catch (error) {
+                console.log(error);
+            }
+
+            res.status(200).json({ message: "Password updated" });
+        } else {
+            return res.status(404).json({ error: "ID not found" });
+        }
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 // Return book
 
