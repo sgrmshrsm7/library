@@ -22,7 +22,7 @@ const home_lib = () => {
             <Link to="/librarian/returnbook">
                 <div className="libHomeButton">Return Book</div>
             </Link>
-            <Link to="/librarian/search">
+            <Link to="/search">
                 <div className="libHomeButton">Availability Of A Book</div>
             </Link>
         </div>

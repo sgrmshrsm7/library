@@ -133,7 +133,7 @@ router.post("/librarian/updatefine", async (req, res) => {
     }
 });
 
-// Librarian update fine
+// Librarian Add book
 router.post("/librarian/add", async (req, res) => {
     // console.log(req.body);
     const { id, qrdata, name, edition, author, publication } = req.body;
@@ -168,8 +168,8 @@ router.post("/librarian/add", async (req, res) => {
     }
 });
 
-// Librarian update fine
-router.post("/searchbook", async (req, res) => {
+// Librarian Searchbook
+router.post("/search/searchbook", async (req, res) => {
     // console.log(req.body);
     const { name } = req.body;
 
