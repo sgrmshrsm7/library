@@ -8,12 +8,14 @@ const add_lib = () => {
             <form className="loginform" method="GET" action="/member/home">
                 <div className="loginhead">Add New Book</div>
 
+
                 <div class="icon">
                     <input
                         class="l-user"
                         type="text"
-                        name="l_user"
-                        placeholder="Name of book"
+                        name="id"
+                        id="id"
+                        placeholder="ID Number"
                     />
                 </div>
 
@@ -21,17 +23,38 @@ const add_lib = () => {
                     <input
                         class="l-user"
                         type="text"
-                        name="l_user"
+                        name="qrdata"
+                        id="qrdata"
+                        placeholder="QR Data"
+                    />
+                </div>
+
+                <div class="icon">
+                    <input
+                        class="l-user"
+                        type="text"
+                        name="name"
+                        id="name"
+                        placeholder="Name"
+                    />
+                </div>
+
+                <div class="icon">
+                    <input
+                        class="l-user"
+                        type="text"
+                        name="edition"
+                        id="edition"
                         placeholder="Edition"
                     />
                 </div>
 
-
                 <div class="icon">
                     <input
                         class="l-user"
                         type="text"
-                        name="l_user"
+                        name="author"
+                        id="author"
                         placeholder="Author"
                     />
                 </div>
@@ -40,7 +63,8 @@ const add_lib = () => {
                     <input
                         class="l-user"
                         type="text"
-                        name="l_user"
+                        name="publication"
+                        id="publication"
                         placeholder="Publication"
                     />
                 </div>
