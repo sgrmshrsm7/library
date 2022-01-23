@@ -14,8 +14,9 @@ const index_lib = () => {
                     <input
                         class="l-user"
                         type="text"
-                        name="l_user"
-                        placeholder="Username"
+                        name="id"
+                        id="name"
+                        placeholder="ID Number"
                     />
                 </div>
 
@@ -23,7 +24,8 @@ const index_lib = () => {
                     <input
                         class="l-pass"
                         type="password"
-                        name="l_pass"
+                        name="password"
+                        id="password"
                         placeholder="Password"
                     />
                 </div>

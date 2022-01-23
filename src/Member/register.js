@@ -17,9 +17,19 @@ const mem_reg = () => {
                     <input
                         class="m-user"
                         type="text"
-                        name="m_user"
-                        id="m_user"
-                        placeholder="Username"
+                        name="id"
+                        id="id"
+                        placeholder="ID Number"
+                    />
+                </div>
+
+                <div class="icon">
+                    <input
+                        class="m-user"
+                        type="text"
+                        name="name"
+                        id="name"
+                        placeholder="Student Name"
                     />
                 </div>
 
@@ -27,39 +37,32 @@ const mem_reg = () => {
                     <input
                         class="m-pass"
                         type="password"
-                        name="m_pass"
+                        name="password"
+                        id="password"
                         placeholder="Password"
                     />
                 </div>
 
                 <div class="icon">
                     <input
-                        class="m-name"
+                        class="m-user"
                         type="text"
-                        name="m_name"
-                        placeholder="Full Name"
+                        name="yearOfJoining"
+                        id="yearOfJoining"
+                        placeholder="Year Of Joining"
                     />
                 </div>
 
                 <div class="icon">
                     <input
-                        class="m-email"
-                        type="email"
-                        name="m_email"
-                        id="m_email"
+                        class="m-user"
+                        type="text"
+                        name="email"
+                        id="email"
                         placeholder="Email"
                     />
                 </div>
 
-                <div class="icon">
-                    <input
-                        class="m-balance"
-                        type="number"
-                        name="m_balance"
-                        id="m_balance"
-                        placeholder="Initial Balance"
-                    />
-                </div>
 
                 <br />
                 <input type="submit" name="m_register" value="Register" />

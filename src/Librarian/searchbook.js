@@ -8,7 +8,7 @@ const searchbook = () => {
             <form className="loginform" method="GET" action="/librarian/search">
                 <div className="loginhead">Search Book</div>
 
-                <input className="m-user" type="text" name="book_name" placeholder="Book Name"/>
+                <input className="m-user" type="text" name="name" id="name" placeholder="Name of Book"/>
 
                 <input type="submit" value="Search" name="s_sumbit" />
             </form>

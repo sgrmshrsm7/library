@@ -12,16 +12,18 @@ const updatefine_lib = () => {
                     <input
                         class="l-user"
                         type="text"
-                        name="l_user"
-                        placeholder="Username"
+                        name="id"
+                        id="id"
+                        placeholder="ID Number"
                     />
                 </div>
 
                 <div class="icon">
                     <input
-                        class="l-pass"
-                        type="password"
-                        name="l_pass"
+                        class="l-user"
+                        type="text"
+                        name="newfine"
+                        id="newfine"
                         placeholder="New Fine"
                     />
                 </div>
