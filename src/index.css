@@ -16,14 +16,14 @@ body {
     margin: 0;
     font-size: 1.8rem;
     color: #2b3e51;
-    background-color: #ffffff;
+    background-color: #eee;
     font-family: "Roboto Slab", serif;
     height: 100%;
     width: 100%;
 }
 
 .header {
-    margin-top: -50px;
+    margin-top: 0px;
     height: 150px;
     background: #343642;
     padding: 25px;
@@ -31,7 +31,89 @@ body {
 
 .headercontent {
     margin: 0%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 20px;
 }
+
+.headercontent p {
+    font-weight: bolder;
+}
+
+.profile {
+    font-size: 50px;
+    color: #25d0ff;
+    text-shadow: 0 0 20px #25d0ff;
+    background-color: #2b2d37;
+    border-radius: 50%;
+    /* height: 80px;
+    width: 80px; */
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid #5f6379;
+    transition: all 0.2s ease-in-out;
+}
+.profile:hover {
+    box-shadow: rgba(255, 255, 255, 0.3) 0 0 30px;
+    cursor: pointer;
+    /* font-size: 55px; */
+    transform: scale(1.05);
+}
+
+nav {
+    z-index: 3;
+}
+
+nav ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+}
+
+nav ul li {
+    display: inline-block;
+    cursor: pointer;
+}
+
+nav ul ul {
+    display: none;
+    position: absolute;
+    top: 85px;
+    right: 0px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    margin-left: 10px;
+    z-index: 999999;
+    border-radius: 20px;
+}
+
+nav ul li:hover > ul {
+    display: inherit;
+}
+
+nav ul ul li {
+    width: 280px;
+    float: none;
+    display: list-item;
+    position: relative;
+    z-index: 999999;
+    background-color: #2b2d37;
+    color: #25d0ff;
+    padding: 10px;
+    border: 1px solid #5f6379;
+    font-weight: 800;
+}
+
+nav ul ul li span {
+    color: white;
+    font-weight: 300;
+}
+
 a {
     color: #25d0ff;
     text-decoration: none;
@@ -87,7 +169,9 @@ a {
     margin: 100px auto;
     padding: 50px;
     border-radius: 20px;
-    border: black solid 2px;
+    border: #555 solid 2px;
+    background-color: #f5f5f5;
+    box-shadow: rgba(0, 0, 0, 0.4) 0 0 20px;
 }
 
 .loginhead {
@@ -180,6 +264,26 @@ input[type="submit"]:hover {
 }
 
 .studHomeButton:hover {
+    background-color: white;
+    color: #25d0ff;
+    box-shadow: #25d0ff 0 0 20px;
+}
+
+.searchButton {
+    padding: 15px 50px;
+    background-color: #25d0ff;
+    color: white;
+    font-weight: bold;
+    font-size: 21pt;
+    width: 350px;
+    cursor: pointer;
+    text-align: center;
+    border: 1px solid #777;
+    border-radius: 10px;
+    margin: 30px auto;
+}
+
+.searchButton:hover {
     background-color: white;
     color: #25d0ff;
     box-shadow: #25d0ff 0 0 20px;

@@ -10,11 +10,11 @@ const search_lib = () => {
                 <div className="loginhead">Search Book</div>
 
                 <Link to="/search/searchbook">
-                    <div className="libHomeButton">Search By Name</div>
+                    <div className="searchButton">Search By Name</div>
                 </Link>
 
                 <Link to="/search/searchbookimg">
-                    <div className="libHomeButton">Search By Image</div>
+                    <div className="searchButton">Search By Image</div>
                 </Link>
             </form>
         </div>
