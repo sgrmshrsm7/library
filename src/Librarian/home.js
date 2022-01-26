@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const home_lib = () => {
+const Lib_home = () => {
     return (
         <div className="librarianhome">
             <Link to="/register">
@@ -29,4 +29,4 @@ const home_lib = () => {
     );
 };
 
-export default home_lib;
+export default Lib_home;

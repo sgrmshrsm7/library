@@ -1,8 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 
 //import "./header_librarian_style.css";
 
-const mem_reg = () => {
+const Register_member = () => {
+    const [user, setUser] = useState({
+        id: "",
+        name: "",
+        password: "",
+        yearOfJoining: "",
+        email: "",
+    });
+
+    let name, value;
+
+    const handleInputs = (e) => {
+        name = e.target.name;
+        value = e.target.value;
+        setUser({
+            ...user,
+            [name]: value,
+        });
+    };
     return (
         <div>
             {/* change to POST */}
@@ -20,6 +38,8 @@ const mem_reg = () => {
                         name="id"
                         id="id"
                         placeholder="ID Number"
+                        onChange={handleInputs}
+                        value={user.id}
                     />
                 </div>
 
@@ -30,6 +50,8 @@ const mem_reg = () => {
                         name="name"
                         id="name"
                         placeholder="Student Name"
+                        onChange={handleInputs}
+                        value={user.name}
                     />
                 </div>
 
@@ -40,6 +62,8 @@ const mem_reg = () => {
                         name="password"
                         id="password"
                         placeholder="Password"
+                        onChange={handleInputs}
+                        value={user.password}
                     />
                 </div>
 
@@ -50,6 +74,8 @@ const mem_reg = () => {
                         name="yearOfJoining"
                         id="yearOfJoining"
                         placeholder="Year Of Joining"
+                        onChange={handleInputs}
+                        value={user.yearOfJoining}
                     />
                 </div>
 
@@ -60,9 +86,10 @@ const mem_reg = () => {
                         name="email"
                         id="email"
                         placeholder="Email"
+                        onChange={handleInputs}
+                        value={user.email}
                     />
                 </div>
-
 
                 <br />
                 <input type="submit" name="m_register" value="Register" />
@@ -71,4 +98,4 @@ const mem_reg = () => {
     );
 };
 
-export default mem_reg;
+export default Register_member;

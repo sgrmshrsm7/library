@@ -2,7 +2,7 @@ import React from "react";
 
 // import "./header_member_style.css";
 
-const faq_mem = () => {
+const Faq_mem = () => {
     return (
         <div className="faqsection">
             <h1 className="loginhead">FAQ'S</h1>
@@ -48,4 +48,4 @@ const faq_mem = () => {
     );
 };
 
-export default faq_mem;
+export default Faq_mem;

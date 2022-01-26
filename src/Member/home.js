@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const home_mem = () => {
+const Home_member = () => {
     return (
         <div className="studentHome">
             <div className="loginhead">Issued books</div>
@@ -117,4 +117,4 @@ const home_mem = () => {
     );
 };
 
-export default home_mem;
+export default Home_member;

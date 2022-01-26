@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 
 // import "./header_member_style.css";
 
-const updatefine_lib = () => {
+const Updatefine_lib = () => {
+    const [user, setUser] = useState({
+        id: "",
+        newfine: "",
+    });
+
+    let name, value;
+
+    const handleInputs = (e) => {
+        name = e.target.name;
+        value = e.target.value;
+        setUser({
+            ...user,
+            [name]: value,
+        });
+    };
     return (
-			<div>
+        <div>
             <form className="loginform" method="GET" action="/member/home">
                 <div className="loginhead">Update fine</div>
 
@@ -15,6 +30,8 @@ const updatefine_lib = () => {
                         name="id"
                         id="id"
                         placeholder="ID Number"
+                        onChange={handleInputs}
+                        value={user.id}
                     />
                 </div>
 
@@ -25,14 +42,15 @@ const updatefine_lib = () => {
                         name="newfine"
                         id="newfine"
                         placeholder="New Fine"
+                        onChange={handleInputs}
+                        value={user.newfine}
                     />
                 </div>
 
                 <input type="submit" value="Update" name="m_login" />
             </form>
         </div>
-
     );
 };
 
-export default updatefine_lib;
+export default Updatefine_lib;

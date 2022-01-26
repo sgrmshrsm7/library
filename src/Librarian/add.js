@@ -1,13 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 
 // import "./header_member_style.css";
 
-const add_lib = () => {
+const Add_lib = () => {
+    const [user, setUser] = useState({
+        id: "",
+        qrdata: "",
+        name: "",
+        edition: "",
+        author: "",
+        publication: "",
+    });
+
+    let name, value;
+
+    const handleInputs = (e) => {
+        name = e.target.name;
+        value = e.target.value;
+        setUser({
+            ...user,
+            [name]: value,
+        });
+    };
+
     return (
-			<div>
+        <div>
             <form className="loginform" method="GET" action="/member/home">
                 <div className="loginhead">Add New Book</div>
-
 
                 <div class="icon">
                     <input
@@ -16,6 +35,8 @@ const add_lib = () => {
                         name="id"
                         id="id"
                         placeholder="ID Number"
+                        onChange={handleInputs}
+                        value={user.id}
                     />
                 </div>
 
@@ -26,6 +47,8 @@ const add_lib = () => {
                         name="qrdata"
                         id="qrdata"
                         placeholder="QR Data"
+                        onChange={handleInputs}
+                        value={user.qrdata}
                     />
                 </div>
 
@@ -36,6 +59,8 @@ const add_lib = () => {
                         name="name"
                         id="name"
                         placeholder="Name"
+                        onChange={handleInputs}
+                        value={user.name}
                     />
                 </div>
 
@@ -46,6 +71,8 @@ const add_lib = () => {
                         name="edition"
                         id="edition"
                         placeholder="Edition"
+                        onChange={handleInputs}
+                        value={user.edition}
                     />
                 </div>
 
@@ -56,6 +83,8 @@ const add_lib = () => {
                         name="author"
                         id="author"
                         placeholder="Author"
+                        onChange={handleInputs}
+                        value={user.author}
                     />
                 </div>
 
@@ -66,18 +95,15 @@ const add_lib = () => {
                         name="publication"
                         id="publication"
                         placeholder="Publication"
+                        onChange={handleInputs}
+                        value={user.publication}
                     />
                 </div>
 
                 <input type="submit" value="Add book" name="m_login" />
             </form>
         </div>
-
     );
 };
 
-export default add_lib;
-
-
-
-
+export default Add_lib;

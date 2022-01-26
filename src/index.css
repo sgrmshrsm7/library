@@ -55,6 +55,7 @@ body {
     align-items: center;
     border: 3px solid #5f6379;
     transition: all 0.2s ease-in-out;
+    margin-left: 20px;
 }
 .profile:hover {
     box-shadow: rgba(255, 255, 255, 0.3) 0 0 30px;
@@ -85,11 +86,10 @@ nav ul ul {
     display: none;
     position: absolute;
     top: 85px;
-    right: 0px;
+    right: 90px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
     margin-left: 10px;
     z-index: 999999;
-    border-radius: 20px;
 }
 
 nav ul li:hover > ul {

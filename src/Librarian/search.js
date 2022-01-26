@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 // import "./header_member_style.css";
 
-const search_lib = () => {
+const Search_mem = () => {
     return (
         <div>
             <form className="loginform" method="GET" action="/member/home">
@@ -21,4 +21,4 @@ const search_lib = () => {
     );
 };
 
-export default search_lib;
+export default Search_mem;

@@ -1,6 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 
-const index_lib = () => {
+const Lib = () => {
+    const [user, setUser] = useState({
+        id: "",
+        password: "",
+    });
+
+    let name, value;
+
+    const handleInputs = (e) => {
+        name = e.target.name;
+        value = e.target.value;
+        setUser({
+            ...user,
+            [name]: value,
+        });
+    };
+
     return (
         <div>
             <form class="loginform" method="GET" action="librarian/home">
@@ -17,6 +33,8 @@ const index_lib = () => {
                         name="id"
                         id="name"
                         placeholder="ID Number"
+                        onChange={handleInputs}
+                        value={user.id}
                     />
                 </div>
 
@@ -27,6 +45,8 @@ const index_lib = () => {
                         name="password"
                         id="password"
                         placeholder="Password"
+                        onChange={handleInputs}
+                        value={user.password}
                     />
                 </div>
 
@@ -36,4 +56,4 @@ const index_lib = () => {
     );
 };
 
-export default index_lib;
+export default Lib;

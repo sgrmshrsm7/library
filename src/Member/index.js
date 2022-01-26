@@ -1,6 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 
-const index_member = () => {
+const Member = () => {
+    const [user, setUser] = useState({
+        id: "",
+        password: "",
+    });
+
+    let name, value;
+
+    const handleInputs = (e) => {
+        name = e.target.name;
+        value = e.target.value;
+        setUser({
+            ...user,
+            [name]: value,
+        });
+    };
     return (
         <div>
             <form className="loginform" method="GET" action="/member/home">
@@ -16,6 +31,8 @@ const index_member = () => {
                     name="id"
                     id="id"
                     placeholder="ID Number"
+                    onChange={handleInputs}
+                    value={user.id}
                 />
 
                 <input
@@ -24,6 +41,8 @@ const index_member = () => {
                     name="password"
                     id="password"
                     placeholder="Password"
+                    onChange={handleInputs}
+                    value={user.password}
                 />
 
                 <input type="submit" value="Login" name="m_login" />
@@ -32,4 +51,4 @@ const index_member = () => {
     );
 };
 
-export default index_member;
+export default Member;

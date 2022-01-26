@@ -1,8 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 
 // import "./header_member_style.css";
 
-const searchbook = () => {
+const Search_name = () => {
+    const [user, setUser] = useState({
+        name: "",
+    });
+
+    let name, value;
+
+    const handleInputs = (e) => {
+        name = e.target.name;
+        value = e.target.value;
+        setUser({
+            ...user,
+            [name]: value,
+        });
+    };
     return (
         <div>
             <form className="loginform" method="GET" action="/librarian/search">
@@ -14,6 +28,8 @@ const searchbook = () => {
                     name="name"
                     id="name"
                     placeholder="Name of Book"
+                    onChange={handleInputs}
+                    value={user.name}
                 />
 
                 <input type="submit" value="Search" name="s_sumbit" />
@@ -22,4 +38,4 @@ const searchbook = () => {
     );
 };
 
-export default searchbook;
+export default Search_name;

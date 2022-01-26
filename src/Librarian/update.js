@@ -1,8 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 
 // import "./header_member_style.css";
 
-const update_lib = () => {
+const Update_lib = () => {
+    const [user, setUser] = useState({
+        id: "",
+        newpass: "",
+    });
+
+    let name, value;
+
+    const handleInputs = (e) => {
+        name = e.target.name;
+        value = e.target.value;
+        setUser({
+            ...user,
+            [name]: value,
+        });
+    };
     return (
         <div>
             {/* change to POST */}
@@ -20,6 +35,8 @@ const update_lib = () => {
                         name="id"
                         id="id"
                         placeholder="ID Number"
+                        onChange={handleInputs}
+                        value={user.id}
                     />
                 </div>
 
@@ -30,6 +47,8 @@ const update_lib = () => {
                         name="newpass"
                         id="newpass"
                         placeholder="New Password"
+                        onChange={handleInputs}
+                        value={user.newpass}
                     />
                 </div>
 
@@ -40,4 +59,4 @@ const update_lib = () => {
     );
 };
 
-export default update_lib;
+export default Update_lib;

@@ -2,6 +2,8 @@ import React from "react";
 import logo from "./img/ic_logo.svg";
 import { ImLibrary } from "react-icons/im";
 import { BsPersonFill } from "react-icons/bs";
+
+import { MdLogout } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 const Header = () => {
@@ -35,6 +37,11 @@ const Header = () => {
                                     Pending Fine: <span>420</span>
                                 </li>
                             </ul>
+                        </li>
+                        <li>
+                            <div className="profile">
+                                <MdLogout />
+                            </div>
                         </li>
                     </ul>
                 </nav>

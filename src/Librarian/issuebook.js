@@ -1,6 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 
-const issuebook = () => {
+const IssueBook = () => {
+    const [user, setUser] = useState({
+        id: "",
+        bookid: "",
+    });
+
+    let name, value;
+
+    const handleInputs = (e) => {
+        name = e.target.name;
+        value = e.target.value;
+        setUser({
+            ...user,
+            [name]: value,
+        });
+    };
     return (
         <div>
             {/* change to POST */}
@@ -18,6 +33,8 @@ const issuebook = () => {
                         name="id"
                         id="id"
                         placeholder="ID Number"
+                        onChange={handleInputs}
+                        value={user.id}
                     />
                 </div>
 
@@ -28,6 +45,8 @@ const issuebook = () => {
                         name="bookid"
                         id="bookid"
                         placeholder="ID of Book"
+                        onChange={handleInputs}
+                        value={user.bookid}
                     />
                 </div>
 
@@ -38,4 +57,4 @@ const issuebook = () => {
     );
 };
 
-export default issuebook;
+export default IssueBook;
