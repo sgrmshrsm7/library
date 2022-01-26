@@ -46,7 +46,6 @@ const ReturnBook = () => {
 
     return (
         <div>
-            {/* change to POST */}
             <form class="loginform" method="POST">
                 <div className="loginhead">Return Book</div>
 
@@ -79,7 +78,12 @@ const ReturnBook = () => {
                 </div>
 
                 <br />
-                <input type="submit" name="m_register" value="Return" onClick={loginUser} />
+                <input
+                    type="submit"
+                    name="m_register"
+                    value="Return"
+                    onClick={loginUser}
+                />
             </form>
         </div>
     );

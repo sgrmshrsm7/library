@@ -230,7 +230,6 @@ router.post("/librarian/returnbook", async (req, res) => {
     // console.log(req.body);
     const { id, bookid } = req.body;
     let flag = false;
-    let message = "Book not issued";
     // Checking if any field is empty
     if (!id || !bookid) {
         return res.status(422).json({ error: "Empty field found" });
@@ -243,29 +242,28 @@ router.post("/librarian/returnbook", async (req, res) => {
             try {
                 booksIssued = userExist.booksIssued;
 
-                for (let i = 0; i < booksIssued.length && flag == false; i++) {
-                    if (booksIssued[i].id === bookid) {
-                        flag = true;
-                        message = "Book returned successfully";
-
-                        async function updateBook() {
-                            const result1 = await Books.updateOne(
-                                { id: bookid },
-                                { $set: { status: false } }
-                            );
-                            booksIssued.splice(i, 1);
-                            const result = await Member.updateOne(
-                                { id },
-                                { $set: { booksIssued: booksIssued } }
-                            );
-                        }
-                        updateBook();
+                for (let i = 0; i < booksIssued.length; i++) {
+                    if (booksIssued[i].id == bookid) {
+                        const result1 = await Books.updateOne(
+                            { id: bookid },
+                            { $set: { status: false } }
+                        );
+                        booksIssued.splice(i, 1);
+                        const result = await Member.updateOne(
+                            { id },
+                            { $set: { booksIssued: booksIssued } }
+                        );
+                        return res
+                            .status(200)
+                            .json({ message: "Book returned" });
                     }
                 }
             } catch (error) {
                 console.log(error);
             }
-            res.status(200).json({ message: message });
+            return res
+                .status(422)
+                .json({ error: "Book already issued or does not exist" });
         } else {
             return res.status(404).json({ error: "ID not found" });
         }
