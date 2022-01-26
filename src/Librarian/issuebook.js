@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const IssueBook = () => {
     const [user, setUser] = useState({
@@ -16,10 +17,37 @@ const IssueBook = () => {
             [name]: value,
         });
     };
+
+    const history = useHistory();
+
+    const loginUser = async (e) => {
+        e.preventDefault();
+        const res = await fetch("/librarian/issuebook", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user),
+        });
+        const data = await res.json();
+        if (
+            !data ||
+            data.error ||
+            res.status === 400 ||
+            res.status === 404 ||
+            res.status === 422
+        ) {
+            window.alert("Invalid Credentials");
+        } else {
+            window.alert("Book issued");
+            history.push("/librarian/home");
+        }
+    };
+
     return (
         <div>
             {/* change to POST */}
-            <form class="loginform" method="GET" action="/member">
+            <form class="loginform" method="POST" >
                 <div className="loginhead">Issue Book</div>
 
                 <div class="error-message" id="error-message">
@@ -51,7 +79,7 @@ const IssueBook = () => {
                 </div>
 
                 <br />
-                <input type="submit" name="m_register" value="Issue" />
+                <input type="submit" name="m_register" value="Issue" onClick={loginUser} />
             </form>
         </div>
     );
