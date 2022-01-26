@@ -19,6 +19,7 @@ import Search_img from "./Librarian/searchbookimg";
 import Updatefine_lib from "./Librarian/updatefine";
 import ReturnBook from "./Librarian/returnbook";
 import IssueBook from "./Librarian/issuebook";
+import Error from "./Error";
 import { Route, Switch } from "react-router-dom";
 
 function App() {
@@ -64,6 +65,7 @@ function App() {
                     path="/librarian/issuebook"
                     component={IssueBook}
                 />
+                <Route path="/" component={Error} />
             </Switch>
 
             {/* <Footer /> */}

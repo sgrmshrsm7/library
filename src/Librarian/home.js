@@ -22,9 +22,9 @@ const Lib_home = () => {
             <Link to="/librarian/returnbook">
                 <div className="libHomeButton">Return Book</div>
             </Link>
-            <Link to="/search">
+            {/* <Link to="/search">
                 <div className="libHomeButton">Availability Of A Book</div>
-            </Link>
+            </Link> */}
         </div>
     );
 };

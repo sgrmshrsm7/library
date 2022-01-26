@@ -106,9 +106,9 @@ const Home_member = () => {
                 <Link to="/member/reissue">
                     <div className="studHomeButton">Reissue books</div>
                 </Link>
-                <Link to="/search">
+                {/* <Link to="/search">
                     <div className="studHomeButton">Search Book</div>
-                </Link>
+                </Link> */}
                 <Link to="/faq">
                     <div className="studHomeButton">FAQ</div>
                 </Link>
