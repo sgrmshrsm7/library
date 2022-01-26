@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const Member = () => {
     const [user, setUser] = useState({
@@ -16,9 +17,36 @@ const Member = () => {
             [name]: value,
         });
     };
+
+    const history = useHistory();
+
+    const loginUser = async (e) => {
+        e.preventDefault();
+        const res = await fetch("/member", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user),
+        });
+        const data = await res.json();
+        if (
+            !data ||
+            data.error ||
+            res.status === 400 ||
+            res.status === 404 ||
+            res.status === 422
+        ) {
+            window.alert("Invalid Credentials");
+        } else {
+            window.alert("Login Successful");
+            history.push("/member/home");
+        }
+    };
+
     return (
         <div>
-            <form className="loginform" method="GET" action="/member/home">
+            <form className="loginform" method="POST">
                 <div className="loginhead">Student Login</div>
 
                 <div className="error-message" id="error-message">
@@ -45,7 +73,12 @@ const Member = () => {
                     value={user.password}
                 />
 
-                <input type="submit" value="Login" name="m_login" />
+                <input
+                    type="submit"
+                    value="Login"
+                    name="m_login"
+                    onClick={loginUser}
+                />
             </form>
         </div>
     );

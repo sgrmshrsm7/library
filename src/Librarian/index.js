@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const Lib = () => {
     const [user, setUser] = useState({
@@ -17,9 +18,35 @@ const Lib = () => {
         });
     };
 
+    const history = useHistory();
+
+    const loginUser = async (e) => {
+        e.preventDefault();
+        const res = await fetch("/librarian", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user),
+        });
+        const data = await res.json();
+        if (
+            !data ||
+            data.error ||
+            res.status === 400 ||
+            res.status === 404 ||
+            res.status === 422
+        ) {
+            window.alert("Invalid Credentials");
+        } else {
+            window.alert("Login Successful");
+            history.push("/librarian/home");
+        }
+    };
+
     return (
         <div>
-            <form class="loginform" method="GET" action="librarian/home">
+            <form class="loginform" method="POST">
                 <div className="loginhead">Librarian Login</div>
 
                 <div class="error-message" id="error-message">
@@ -50,7 +77,12 @@ const Lib = () => {
                     />
                 </div>
 
-                <input type="submit" value="Login" name="l_login" />
+                <input
+                    type="submit"
+                    value="Login"
+                    name="l_login"
+                    onClick={loginUser}
+                />
             </form>
         </div>
     );
