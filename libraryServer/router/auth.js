@@ -1,5 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const authenticate = require("../middleware/authenticate");
+const authenticatelib = require("../middleware/authenticatelib");
 
 require("../db/conn");
 const Member = require("../model/memberSchema");
@@ -11,6 +15,14 @@ router.get("/", (req, res) => {
     res.send("Hello from the home page");
 });
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Member
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // Member Login route
 router.post("/member", async (req, res) => {
     try {
@@ -21,12 +33,26 @@ router.post("/member", async (req, res) => {
         }
 
         const memberLogin = await Member.findOne({ id });
-        if (memberLogin && memberLogin.password === password) {
-            res.json({
-                message: "Login Successful, Welcome " + memberLogin.name,
-            });
+        if (memberLogin) {
+            const isMatch = await bcrypt.compare(
+                password,
+                memberLogin.password
+            );
+
+            if (isMatch) {
+                const token = await memberLogin.generateAuthToken();
+                res.cookie("jwtoken", token, {
+                    expires: new Date(Date.now() + 25892000000),
+                    httpOnly: true,
+                });
+                res.json({
+                    message: "Login Successful, Welcome " + memberLogin.name,
+                });
+            } else {
+                return res.status(422).json({ error: "Wrong Password" });
+            }
         } else {
-            res.status(400).json({ error: "Invalid credentials" });
+            res.status(400).json({ error: "User not found" });
         }
     } catch (error) {
         console.log(error);
@@ -34,16 +60,24 @@ router.post("/member", async (req, res) => {
 });
 
 // Member home
-router.get("/member/home", async (req, res) => {
+router.get("/member/home", authenticate, async (req, res) => {
     try {
         const { id } = req.body;
 
-        const memberLogin = await Member.findOne({ id });
-        res.json(memberLogin);
+        // const memberLogin = await Member.findOne({ id });
+        res.json(req.rootUser);
     } catch (error) {
         console.log(error);
     }
 });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Librarian
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Librarian Login route
 router.post("/librarian", async (req, res) => {
@@ -55,10 +89,18 @@ router.post("/librarian", async (req, res) => {
         }
 
         const librarianLogin = await Librarian.findOne({ id });
-        if (librarianLogin && librarianLogin.password === password) {
-            res.json({ message: "Login Successful" });
+        if (librarianLogin) {
+            const isMatch = await bcrypt.compare(
+                password,
+                librarianLogin.password
+            );
+            if (isMatch) {
+                res.status(200).json({ message: "Login Successful" });
+            } else {
+                return res.status(422).json({ error: "Wrong Password" });
+            }
         } else {
-            res.status(400).json({ error: "Invalid credentials" });
+            res.status(400).json({ error: "Librarian not found" });
         }
     } catch (error) {
         console.log(error);
@@ -209,7 +251,7 @@ router.post("/librarian/update", async (req, res) => {
             try {
                 const result = await Member.updateOne(
                     { id },
-                    { $set: { password: newpass } }
+                    { $set: { password: await bcrypt.hash(newpass, 12) } }
                 );
                 // console.log(result);
             } catch (error) {
@@ -323,6 +365,39 @@ router.post("/librarian/issuebook", async (req, res) => {
             }
         } else {
             return res.status(404).json({ error: "Student ID not found" });
+        }
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+// Member Logout
+
+router.post("/member/logout", async (req, res) => {
+    // console.log(req.body);
+    const { id } = req.body;
+
+    // Checking if any field is empty
+    if (!id) {
+        return res.status(422).json({ error: "Empty field found" });
+    }
+
+    try {
+        const userExist = await Member.findOne({ id });
+        if (userExist) {
+            // update fine
+            try {
+                const result = await Member.updateOne(
+                    { id },
+                    { $set: { token: "" } }
+                );
+            } catch (error) {
+                console.log(error);
+            }
+
+            res.status(200).json({ message: "Logged out" });
+        } else {
+            return res.status(404).json({ error: "ID not found" });
         }
     } catch (error) {
         console.log(error);

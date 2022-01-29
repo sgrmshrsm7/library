@@ -4,9 +4,34 @@ import { ImLibrary } from "react-icons/im";
 import { BsPersonFill } from "react-icons/bs";
 import { BiSearchAlt } from "react-icons/bi";
 import { MdLogout } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const Header = () => {
+    const history = useHistory();
+    const logout = () => {
+        const logoutUser = async () => {
+            const res = await fetch("/member/logout", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    id: parseInt(
+                        JSON.parse(localStorage.getItem("userData")).id
+                    ),
+                }),
+            });
+            const data = await res.json();
+            if (!data || data.error || res.status != 200) {
+                window.alert("Not logged out");
+            } else {
+                window.alert("Logged out");
+            }
+        };
+        logoutUser();
+        localStorage.clear();
+        history.push("/");
+    };
     return (
         <div className="header">
             <div className="headercontent">
@@ -16,43 +41,82 @@ const Header = () => {
                         &nbsp;&nbsp;LIBRARY
                     </Link>
                 </p>
-
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to="/search">
+                {localStorage.hasOwnProperty("userData") ? (
+                    <nav>
+                        <ul>
+                            <li>
+                                <Link to="/search">
+                                    <div className="profile">
+                                        <BiSearchAlt />
+                                    </div>
+                                </Link>
+                            </li>
+                            <li>
                                 <div className="profile">
-                                    <BiSearchAlt />
+                                    <BsPersonFill />
                                 </div>
-                            </Link>
-                        </li>
-                        <li>
-                            <div className="profile">
-                                <BsPersonFill />
-                            </div>
-                            <ul>
-                                <li>
-                                    Name: <span>Chintu Prasad</span>
-                                </li>
-                                <li>
-                                    Student ID: <span>22792</span>
-                                </li>
-                                <li>
-                                    Email: <span>chintu@pintu.com</span>
-                                </li>
-                                <li>
-                                    Pending Fine: <span>420</span>
-                                </li>
-                            </ul>
-                        </li>
+                                <ul>
+                                    <li>
+                                        Name:{" "}
+                                        <span>
+                                            {
+                                                JSON.parse(
+                                                    localStorage.getItem(
+                                                        "userData"
+                                                    )
+                                                ).name
+                                            }
+                                        </span>
+                                    </li>
+                                    <li>
+                                        Student ID:{" "}
+                                        <span>
+                                            {
+                                                JSON.parse(
+                                                    localStorage.getItem(
+                                                        "userData"
+                                                    )
+                                                ).id
+                                            }
+                                        </span>
+                                    </li>
+                                    <li>
+                                        Email:{" "}
+                                        <span>
+                                            {
+                                                JSON.parse(
+                                                    localStorage.getItem(
+                                                        "userData"
+                                                    )
+                                                ).email
+                                            }
+                                        </span>
+                                    </li>
+                                    <li>
+                                        Pending Fine:{" "}
+                                        <span>
+                                            {
+                                                JSON.parse(
+                                                    localStorage.getItem(
+                                                        "userData"
+                                                    )
+                                                ).pendingFine
+                                            }
+                                        </span>
+                                    </li>
+                                </ul>
+                            </li>
 
-                        <li>
-                            <div className="profile">
-                                <MdLogout />
-                            </div>
-                        </li>
-                    </ul>
-                </nav>
+                            <li onClick={logout}>
+                                <div className="profile">
+                                    <MdLogout />
+                                </div>
+                            </li>
+                        </ul>
+                    </nav>
+                ) : (
+                    <span></span>
+                )}
             </div>
         </div>
     );

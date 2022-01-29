@@ -1,15 +1,14 @@
 const jwt = require("jsonwebtoken");
-// const User = require("../model/userSchema");
-const Member = require("../model/memberSchema");
+const Librarian = require("../model/librarianSchema");
 
-const authenticate = async (req, res, next) => {
+const authenticatelib = async (req, res, next) => {
     try {
         // const token = req.cookies.jwtoken;
         const token = req.headers.cookie.substring(8);
 
         const verifyToken = jwt.verify(token, process.env.SECRET_KEY);
 
-        const rootUser = await Member.findOne({
+        const rootUser = await Librarian.findOne({
             _id: verifyToken._id,
             token: token,
         });
@@ -27,4 +26,4 @@ const authenticate = async (req, res, next) => {
     }
 };
 
-module.exports = authenticate;
+module.exports = authenticatelib;

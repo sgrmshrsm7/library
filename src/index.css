@@ -331,3 +331,17 @@ input[type="submit"]:hover {
 .backtext {
     margin-left: 20px;
 }
+
+table {
+    font-size: 15pt;
+    margin-top: 40px;
+}
+th {
+    font-size: 16pt;
+}
+td {
+    padding: 5px 30px;
+}
+.cellcenter {
+    text-align: center;
+}
