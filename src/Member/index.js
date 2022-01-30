@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
+import { UserContext } from "../App";
 
 const Member = () => {
     const [user, setUser] = useState({
@@ -40,6 +41,7 @@ const Member = () => {
             window.alert("Invalid Credentials");
         } else {
             window.alert("Login Successful");
+            localStorage.setItem("userData", JSON.stringify(data));
             history.push("/member/home");
         }
     };

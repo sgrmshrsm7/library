@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import logo from "./img/ic_logo.svg";
 import { ImLibrary } from "react-icons/im";
 import { BsPersonFill } from "react-icons/bs";
@@ -6,7 +6,11 @@ import { BiSearchAlt } from "react-icons/bi";
 import { MdLogout } from "react-icons/md";
 import { Link, useHistory } from "react-router-dom";
 
+import { UserContext } from "./App";
+
 const Header = () => {
+    const { state, dispatch } = useContext(UserContext);
+
     const history = useHistory();
     const logout = () => {
         const logoutUser = async () => {
@@ -26,6 +30,10 @@ const Header = () => {
                 window.alert("Not logged out");
             } else {
                 window.alert("Logged out");
+                dispatch({
+                    type: "USER",
+                    payload: false,
+                });
             }
         };
         logoutUser();
@@ -41,7 +49,10 @@ const Header = () => {
                         &nbsp;&nbsp;LIBRARY
                     </Link>
                 </p>
-                {localStorage.hasOwnProperty("userData") ? (
+                {console.log("state")}
+                {console.log(state)}
+                {console.log(localStorage.hasOwnProperty("userData"))}
+                {state && localStorage.hasOwnProperty("userData") ? (
                     <nav>
                         <ul>
                             <li>

@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import { UserContext } from "../App";
 
 const Home_member = () => {
     const history = useHistory();
@@ -12,6 +13,7 @@ const Home_member = () => {
         yearOfJoining: 0,
         email: "",
     });
+    const { state, dispatch } = useContext(UserContext);
 
     const callMemberHome = async () => {
         try {
@@ -33,6 +35,10 @@ const Home_member = () => {
             const data = await res.json();
             localStorage.setItem("userData", JSON.stringify(data));
             setUserData(data);
+            dispatch({
+                type: "USER",
+                payload: true,
+            });
         } catch (error) {
             console.log(error);
             history.push("/member");

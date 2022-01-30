@@ -394,7 +394,7 @@ router.post("/member/logout", async (req, res) => {
             } catch (error) {
                 console.log(error);
             }
-
+            res.clearCookie("jwtoken", { path: "/" });
             res.status(200).json({ message: "Logged out" });
         } else {
             return res.status(404).json({ error: "ID not found" });

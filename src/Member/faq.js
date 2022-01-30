@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 
 // import "./header_member_style.css";
 
+import { UserContext } from "../App";
+
 const Faq_mem = () => {
+    const { state, dispatch } = useContext(UserContext);
+    dispatch({
+        type: "USER",
+        payload: true,
+    });
     return (
         <div className="faqsection">
             <h1 className="loginhead">FAQ'S</h1>
