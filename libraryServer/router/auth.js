@@ -72,6 +72,58 @@ router.get("/member/home", authenticate, async (req, res) => {
 });
 
 // Reissue
+
+router.post("/member/reissue", authenticate, async (req, res) => {
+    // console.log(req.body);
+    const { id, bookid } = req.body;
+
+    // Checking if any field is empty
+    if (!id || !bookid) {
+        return res.status(422).json({ error: "Empty field found" });
+    }
+
+    try {
+        const userExist = await Member.findOne({ id });
+        if (userExist) {
+            // update fine
+            try {
+                const bookExist = await Books.findOne({ id: bookid });
+                if (bookExist && bookExist.status == true) {
+                    booksIssued = userExist.booksIssued;
+
+                    for (let i = 0; i < booksIssued.length; i++) {
+                        if (booksIssued[i].id == bookid) {
+                            booksIssued[i].duedate = new Date(
+                                Date.now() + 12096e5
+                            );
+                            const result = await Member.updateOne(
+                                { id },
+                                { $set: { booksIssued: booksIssued } }
+                            );
+                            return res
+                                .status(200)
+                                .json({ message: "Book issued" });
+                        }
+                    }
+                } else {
+                    return res.status(422).json({ error: "Book not found" });
+                }
+                // const result = await Member.updateOne(
+                //     { id },
+                //     { $set: { pendingFine: newfine } }
+                // );
+            } catch (error) {
+                console.log(error);
+            }
+            return res.status(422).json({ error: "Error :(" });
+        } else {
+            return res.status(404).json({ error: "ID not found" });
+        }
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 router.get("/member/reissue", authenticate, async (req, res) => {
     try {
         const { id } = req.body;

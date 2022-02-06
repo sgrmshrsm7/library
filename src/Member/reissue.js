@@ -1,12 +1,52 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../App";
+
+import QrReader from "react-qr-reader";
 
 // import "./header_member_style.css";
 
 const Reissue_mem = () => {
     const history = useHistory();
     const { state, dispatch } = useContext(UserContext);
+
+    const [result, setResult] = useState("");
+    const [id, setId] = useState();
+
+    const handleScan = (data) => {
+        if (data) {
+            setResult(parseInt(data.slice(2)));
+        }
+    };
+    const handleError = (err) => {
+        console.error(err);
+    };
+    const clearqr = () => {
+        setResult("");
+    };
+    const submitqr = async (e) => {
+        e.preventDefault();
+        const res = await fetch("/member/reissue", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ id: id, bookid: result }),
+        });
+        const data = await res.json();
+        if (
+            !data ||
+            data.error ||
+            res.status === 400 ||
+            res.status === 404 ||
+            res.status === 422
+        ) {
+            window.alert("Invalid Credentials");
+        } else {
+            window.alert("Successfully Reissued");
+            history.push("/member/home");
+        }
+    };
 
     const callMemberHome = async () => {
         try {
@@ -26,7 +66,7 @@ const Reissue_mem = () => {
             }
 
             const data = await res.json();
-
+            setId(data.id);
             dispatch({
                 type: "USER",
                 payload: true,
@@ -43,11 +83,32 @@ const Reissue_mem = () => {
 
     return (
         <div>
-            <form className="loginform" method="GET" action="/member/home">
+            <div className="loginform">
                 <div className="loginhead">Reissue Book</div>
+                <div className="scanner">
+                    <QrReader
+                        delay={300}
+                        onError={handleError}
+                        onScan={handleScan}
+                        style={{ width: "100%" }}
+                    />
+                </div>
+                {result != "" ? (
+                    <>
+                        <p className="scannedbook">ID of Book: {result}</p>
+                        <div className="qrbuttons">
+                            <div className="qrscanbutton" onClick={clearqr}>
+                                Clear QR
+                            </div>
+                            <div className="qrscanbutton" onClick={submitqr}>
+                                Confirm QR
+                            </div>
+                        </div>
+                    </>
+                ) : null}
 
-                <input type="submit" value="Scan QR code" name="m_login" />
-            </form>
+                {/* <input type="submit" value="Scan QR code" name="m_login" /> */}
+            </div>
         </div>
     );
 };
