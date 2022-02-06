@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 // import "./header_member_style.css";
 
+import { UserContext } from "../App";
+import { useContext } from "react";
+
 const Updatefine_lib = () => {
+    const { state, dispatch } = useContext(UserContext);
+
     const [user, setUser] = useState({
         id: "",
         newfine: "",
@@ -21,6 +26,39 @@ const Updatefine_lib = () => {
     };
 
     const history = useHistory();
+
+    const callMemberHome = async () => {
+        try {
+            const res = await fetch("/librarian/updatefine", {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+            });
+
+            // console.log(userData);
+            if (res.status !== 200) {
+                const error = new Error(res.error);
+                throw error;
+            }
+
+            const data = await res.json();
+
+            dispatch({
+                type: "USER",
+                payload: true,
+            });
+        } catch (error) {
+            console.log(error);
+            history.push("/librarian");
+        }
+    };
+
+    useEffect(() => {
+        callMemberHome();
+    }, []);
 
     const loginUser = async (e) => {
         e.preventDefault();
@@ -48,7 +86,7 @@ const Updatefine_lib = () => {
 
     return (
         <div>
-            <form className="loginform" method="POST" >
+            <form className="loginform" method="POST">
                 <div className="loginhead">Update fine</div>
 
                 <div class="icon">
@@ -75,13 +113,12 @@ const Updatefine_lib = () => {
                     />
                 </div>
 
-                <input 
-                    type="submit" 
-                    value="Update" 
-                    name="m_login" 
-                    onClick={loginUser} 
+                <input
+                    type="submit"
+                    value="Update"
+                    name="m_login"
+                    onClick={loginUser}
                 />
-
             </form>
         </div>
     );

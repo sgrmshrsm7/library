@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { UserContext } from "../App";
 
 // import "./header_member_style.css";
 
 const Add_lib = () => {
+    const { state, dispatch } = useContext(UserContext);
+
     const [user, setUser] = useState({
         id: "",
         qrdata: "",
@@ -25,6 +28,39 @@ const Add_lib = () => {
     };
 
     const history = useHistory();
+
+    const callMemberHome = async () => {
+        try {
+            const res = await fetch("/librarian/add", {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+            });
+
+            // console.log(userData);
+            if (res.status !== 200) {
+                const error = new Error(res.error);
+                throw error;
+            }
+
+            const data = await res.json();
+
+            dispatch({
+                type: "USER",
+                payload: true,
+            });
+        } catch (error) {
+            console.log(error);
+            history.push("/librarian");
+        }
+    };
+
+    useEffect(() => {
+        callMemberHome();
+    }, []);
 
     const loginUser = async (e) => {
         e.preventDefault();
@@ -52,7 +88,7 @@ const Add_lib = () => {
 
     return (
         <div>
-            <form className="loginform" method="POST" >
+            <form className="loginform" method="POST">
                 <div className="loginhead">Add New Book</div>
 
                 <div class="icon">
@@ -127,7 +163,12 @@ const Add_lib = () => {
                     />
                 </div>
 
-                <input type="submit" value="Add book" name="m_login" onClick={loginUser} />
+                <input
+                    type="submit"
+                    value="Add book"
+                    name="m_login"
+                    onClick={loginUser}
+                />
             </form>
         </div>
     );

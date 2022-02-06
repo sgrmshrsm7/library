@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
+import { UserContext } from "../App";
+import { useContext } from "react";
+
 const IssueBook = () => {
+    const { state, dispatch } = useContext(UserContext);
+
     const [user, setUser] = useState({
         id: "",
         bookid: "",
@@ -19,6 +24,39 @@ const IssueBook = () => {
     };
 
     const history = useHistory();
+
+    const callMemberHome = async () => {
+        try {
+            const res = await fetch("/librarian/issuebook", {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+            });
+
+            // console.log(userData);
+            if (res.status !== 200) {
+                const error = new Error(res.error);
+                throw error;
+            }
+
+            const data = await res.json();
+
+            dispatch({
+                type: "USER",
+                payload: true,
+            });
+        } catch (error) {
+            console.log(error);
+            history.push("/librarian");
+        }
+    };
+
+    useEffect(() => {
+        callMemberHome();
+    }, []);
 
     const loginUser = async (e) => {
         e.preventDefault();
@@ -47,7 +85,7 @@ const IssueBook = () => {
     return (
         <div>
             {/* change to POST */}
-            <form class="loginform" method="POST" >
+            <form class="loginform" method="POST">
                 <div className="loginhead">Issue Book</div>
 
                 <div class="error-message" id="error-message">
@@ -79,7 +117,12 @@ const IssueBook = () => {
                 </div>
 
                 <br />
-                <input type="submit" name="m_register" value="Issue" onClick={loginUser} />
+                <input
+                    type="submit"
+                    name="m_register"
+                    value="Issue"
+                    onClick={loginUser}
+                />
             </form>
         </div>
     );

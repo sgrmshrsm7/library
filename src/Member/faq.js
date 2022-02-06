@@ -1,15 +1,45 @@
-import React, { useContext } from "react";
-
-// import "./header_member_style.css";
+import React, { useContext, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 import { UserContext } from "../App";
 
 const Faq_mem = () => {
+    const history = useHistory();
     const { state, dispatch } = useContext(UserContext);
-    dispatch({
-        type: "USER",
-        payload: true,
-    });
+
+    const callMemberHome = async () => {
+        try {
+            const res = await fetch("/faq", {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+            });
+
+            // console.log(userData);
+            if (res.status !== 200) {
+                const error = new Error(res.error);
+                throw error;
+            }
+
+            const data = await res.json();
+
+            dispatch({
+                type: "USER",
+                payload: true,
+            });
+        } catch (error) {
+            console.log(error);
+            history.push("/");
+        }
+    };
+
+    useEffect(() => {
+        callMemberHome();
+    }, []);
+
     return (
         <div className="faqsection">
             <h1 className="loginhead">FAQ'S</h1>

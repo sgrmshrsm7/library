@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
+import { UserContext } from "../App";
+import { useContext } from "react";
+
 const ReturnBook = () => {
+    const { state, dispatch } = useContext(UserContext);
+
     const [user, setUser] = useState({
         id: "",
         bookid: "",
@@ -19,6 +24,39 @@ const ReturnBook = () => {
     };
 
     const history = useHistory();
+
+    const callMemberHome = async () => {
+        try {
+            const res = await fetch("/librarian/returnbook", {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+            });
+
+            // console.log(userData);
+            if (res.status !== 200) {
+                const error = new Error(res.error);
+                throw error;
+            }
+
+            const data = await res.json();
+
+            dispatch({
+                type: "USER",
+                payload: true,
+            });
+        } catch (error) {
+            console.log(error);
+            history.push("/librarian");
+        }
+    };
+
+    useEffect(() => {
+        callMemberHome();
+    }, []);
 
     const loginUser = async (e) => {
         e.preventDefault();

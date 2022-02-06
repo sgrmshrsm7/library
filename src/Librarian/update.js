@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 // import "./header_member_style.css";
 
+import { UserContext } from "../App";
+import { useContext } from "react";
+
 const Update_lib = () => {
+    const { state, dispatch } = useContext(UserContext);
+
     const [user, setUser] = useState({
         id: "",
         newpass: "",
@@ -21,6 +26,39 @@ const Update_lib = () => {
     };
 
     const history = useHistory();
+
+    const callMemberHome = async () => {
+        try {
+            const res = await fetch("/librarian/update", {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+            });
+
+            // console.log(userData);
+            if (res.status !== 200) {
+                const error = new Error(res.error);
+                throw error;
+            }
+
+            const data = await res.json();
+
+            dispatch({
+                type: "USER",
+                payload: true,
+            });
+        } catch (error) {
+            console.log(error);
+            history.push("/librarian");
+        }
+    };
+
+    useEffect(() => {
+        callMemberHome();
+    }, []);
 
     const loginUser = async (e) => {
         e.preventDefault();
@@ -49,7 +87,7 @@ const Update_lib = () => {
     return (
         <div>
             {/* change to POST */}
-            <form class="loginform" method="POST" >
+            <form class="loginform" method="POST">
                 <div className="loginhead">Update Details</div>
 
                 <div class="error-message" id="error-message">
@@ -81,7 +119,12 @@ const Update_lib = () => {
                 </div>
 
                 <br />
-                <input type="submit" name="m_register" value="Update" onClick={loginUser} />
+                <input
+                    type="submit"
+                    name="m_register"
+                    value="Update"
+                    onClick={loginUser}
+                />
             </form>
         </div>
     );

@@ -1,10 +1,13 @@
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 
 // define Schema
 var LibrarianSchema = mongoose.Schema({
     name: String,
     id: Number,
     password: String,
+    email: String,
+    token: String,
 });
 
 // Hashing password

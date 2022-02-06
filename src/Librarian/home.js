@@ -1,9 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 
+import { UserContext } from "../App";
+
 const Lib_home = () => {
     const history = useHistory();
+    const { state, dispatch } = useContext(UserContext);
 
     const callMemberHome = async () => {
         try {
@@ -16,12 +19,17 @@ const Lib_home = () => {
                 credentials: "include",
             });
 
-            const data = await res.json();
-
             if (res.status !== 200) {
                 const error = new Error(res.error);
                 throw error;
             }
+
+            const data = await res.json();
+            localStorage.setItem("userData", JSON.stringify(data));
+            dispatch({
+                type: "USER",
+                payload: true,
+            });
         } catch (error) {
             console.log(error);
             history.push("/librarian");

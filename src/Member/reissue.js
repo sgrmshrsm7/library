@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
+import { UserContext } from "../App";
 
 // import "./header_member_style.css";
 
 const Reissue_mem = () => {
     const history = useHistory();
+    const { state, dispatch } = useContext(UserContext);
 
     const callMemberHome = async () => {
         try {
@@ -17,12 +19,18 @@ const Reissue_mem = () => {
                 credentials: "include",
             });
 
-            const data = await res.json();
-
+            // console.log(userData);
             if (res.status !== 200) {
                 const error = new Error(res.error);
                 throw error;
             }
+
+            const data = await res.json();
+
+            dispatch({
+                type: "USER",
+                payload: true,
+            });
         } catch (error) {
             console.log(error);
             history.push("/member");
@@ -32,6 +40,7 @@ const Reissue_mem = () => {
     useEffect(() => {
         callMemberHome();
     }, []);
+
     return (
         <div>
             <form className="loginform" method="GET" action="/member/home">

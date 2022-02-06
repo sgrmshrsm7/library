@@ -40,6 +40,7 @@ const Header = () => {
         localStorage.clear();
         history.push("/");
     };
+
     return (
         <div className="header">
             <div className="headercontent">
@@ -52,7 +53,7 @@ const Header = () => {
                 {console.log("state")}
                 {console.log(state)}
                 {console.log(localStorage.hasOwnProperty("userData"))}
-                {state && localStorage.hasOwnProperty("userData") ? (
+                {state || localStorage.hasOwnProperty("userData") ? (
                     <nav>
                         <ul>
                             <li>
@@ -103,18 +104,23 @@ const Header = () => {
                                             }
                                         </span>
                                     </li>
-                                    <li>
-                                        Pending Fine:{" "}
-                                        <span>
-                                            {
-                                                JSON.parse(
-                                                    localStorage.getItem(
-                                                        "userData"
-                                                    )
-                                                ).pendingFine
-                                            }
-                                        </span>
-                                    </li>
+                                    {"pendingFine" in
+                                    JSON.parse(
+                                        localStorage.getItem("userData")
+                                    ) ? (
+                                        <li>
+                                            Pending Fine:{" "}
+                                            <span>
+                                                {
+                                                    JSON.parse(
+                                                        localStorage.getItem(
+                                                            "userData"
+                                                        )
+                                                    ).pendingFine
+                                                }
+                                            </span>
+                                        </li>
+                                    ) : null}
                                 </ul>
                             </li>
 

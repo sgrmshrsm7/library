@@ -71,6 +71,30 @@ router.get("/member/home", authenticate, async (req, res) => {
     }
 });
 
+// Reissue
+router.get("/member/reissue", authenticate, async (req, res) => {
+    try {
+        const { id } = req.body;
+
+        // const memberLogin = await Member.findOne({ id });
+        res.json(req.rootUser);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+// FAQ
+router.get("/faq", authenticate, async (req, res) => {
+    try {
+        const { id } = req.body;
+
+        // const memberLogin = await Member.findOne({ id });
+        res.json(req.rootUser);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -95,6 +119,11 @@ router.post("/librarian", async (req, res) => {
                 librarianLogin.password
             );
             if (isMatch) {
+                const token = await librarianLogin.generateAuthToken();
+                res.cookie("jwtoken", token, {
+                    expires: new Date(Date.now() + 25892000000),
+                    httpOnly: true,
+                });
                 res.status(200).json({ message: "Login Successful" });
             } else {
                 return res.status(422).json({ error: "Wrong Password" });
@@ -107,8 +136,20 @@ router.post("/librarian", async (req, res) => {
     }
 });
 
+// Librarian home
+router.get("/librarian/home", authenticatelib, async (req, res) => {
+    try {
+        const { id } = req.body;
+
+        // const memberLogin = await Member.findOne({ id });
+        res.json(req.rootUser);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 // Librarian add student
-router.post("/register", async (req, res) => {
+router.post("/register", authenticatelib, async (req, res) => {
     // console.log(req.body);
     const { id, name, password, yearOfJoining, email } = req.body;
 
@@ -142,8 +183,19 @@ router.post("/register", async (req, res) => {
     }
 });
 
+router.get("/register", authenticatelib, async (req, res) => {
+    try {
+        const { id } = req.body;
+
+        // const memberLogin = await Member.findOne({ id });
+        res.json(req.rootUser);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 // Librarian update fine
-router.post("/librarian/updatefine", async (req, res) => {
+router.post("/librarian/updatefine", authenticatelib, async (req, res) => {
     // console.log(req.body);
     const { id, newfine } = req.body;
 
@@ -175,8 +227,19 @@ router.post("/librarian/updatefine", async (req, res) => {
     }
 });
 
+router.get("/librarian/updatefine", authenticatelib, async (req, res) => {
+    try {
+        const { id } = req.body;
+
+        // const memberLogin = await Member.findOne({ id });
+        res.json(req.rootUser);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 // Librarian Add book
-router.post("/librarian/add", async (req, res) => {
+router.post("/librarian/add", authenticatelib, async (req, res) => {
     // console.log(req.body);
     const { id, qrdata, name, edition, author, publication } = req.body;
 
@@ -210,32 +273,19 @@ router.post("/librarian/add", async (req, res) => {
     }
 });
 
-// Librarian Searchbook
-router.post("/search/searchbook", async (req, res) => {
-    // console.log(req.body);
-    const { name } = req.body;
-
-    // Checking if any field is empty
-    if (!name) {
-        return res.status(422).json({ error: "Empty field found" });
-    }
-
+router.get("/librarian/add", authenticatelib, async (req, res) => {
     try {
-        Books.find({ name }, function (err, docs) {
-            if (!err) {
-                // console.log(docs);
-                res.status(200).json(docs);
-            } else {
-                throw err;
-            }
-        });
+        const { id } = req.body;
+
+        // const memberLogin = await Member.findOne({ id });
+        res.json(req.rootUser);
     } catch (error) {
         console.log(error);
     }
 });
 
 // Librarian update student info
-router.post("/librarian/update", async (req, res) => {
+router.post("/librarian/update", authenticatelib, async (req, res) => {
     // console.log(req.body);
     const { id, newpass } = req.body;
 
@@ -267,8 +317,19 @@ router.post("/librarian/update", async (req, res) => {
     }
 });
 
+router.get("/librarian/update", authenticatelib, async (req, res) => {
+    try {
+        const { id } = req.body;
+
+        // const memberLogin = await Member.findOne({ id });
+        res.json(req.rootUser);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 // Return book
-router.post("/librarian/returnbook", async (req, res) => {
+router.post("/librarian/returnbook", authenticatelib, async (req, res) => {
     // console.log(req.body);
     const { id, bookid } = req.body;
     let flag = false;
@@ -314,8 +375,19 @@ router.post("/librarian/returnbook", async (req, res) => {
     }
 });
 
+router.get("/librarian/returnbook", authenticatelib, async (req, res) => {
+    try {
+        const { id } = req.body;
+
+        // const memberLogin = await Member.findOne({ id });
+        res.json(req.rootUser);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 // Issue book
-router.post("/librarian/issuebook", async (req, res) => {
+router.post("/librarian/issuebook", authenticatelib, async (req, res) => {
     // console.log(req.body);
     const { id, bookid } = req.body;
     // Checking if any field is empty
@@ -371,6 +443,17 @@ router.post("/librarian/issuebook", async (req, res) => {
     }
 });
 
+router.get("/librarian/issuebook", authenticatelib, async (req, res) => {
+    try {
+        const { id } = req.body;
+
+        // const memberLogin = await Member.findOne({ id });
+        res.json(req.rootUser);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 // Member Logout
 
 router.post("/member/logout", async (req, res) => {
@@ -399,6 +482,64 @@ router.post("/member/logout", async (req, res) => {
         } else {
             return res.status(404).json({ error: "ID not found" });
         }
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+// Librarian Logout
+
+router.post("/librarian/logout", async (req, res) => {
+    // console.log(req.body);
+    const { id } = req.body;
+
+    // Checking if any field is empty
+    if (!id) {
+        return res.status(422).json({ error: "Empty field found" });
+    }
+
+    try {
+        const userExist = await Librarian.findOne({ id });
+        if (userExist) {
+            try {
+                const result = await Librarian.updateOne(
+                    { id },
+                    { $set: { token: "" } }
+                );
+            } catch (error) {
+                console.log(error);
+            }
+            res.clearCookie("jwtoken", { path: "/" });
+            res.status(200).json({ message: "Logged out" });
+        } else {
+            return res.status(404).json({ error: "ID not found" });
+        }
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Librarian Searchbook
+router.post("/search/searchbook", async (req, res) => {
+    // console.log(req.body);
+    const { name } = req.body;
+
+    // Checking if any field is empty
+    if (!name) {
+        return res.status(422).json({ error: "Empty field found" });
+    }
+
+    try {
+        Books.find({ name }, function (err, docs) {
+            if (!err) {
+                // console.log(docs);
+                res.status(200).json(docs);
+            } else {
+                throw err;
+            }
+        });
     } catch (error) {
         console.log(error);
     }

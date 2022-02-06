@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
-
+import { UserContext } from "../App";
 //import "./header_librarian_style.css";
 
 const Register_member = () => {
@@ -48,6 +48,41 @@ const Register_member = () => {
             history.push("/librarian/home");
         }
     };
+
+    const { state, dispatch } = useContext(UserContext);
+
+    const callMemberHome = async () => {
+        try {
+            const res = await fetch("/register", {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+            });
+
+            // console.log(userData);
+            if (res.status !== 200) {
+                const error = new Error(res.error);
+                throw error;
+            }
+
+            const data = await res.json();
+
+            dispatch({
+                type: "USER",
+                payload: true,
+            });
+        } catch (error) {
+            console.log(error);
+            history.push("/librarian");
+        }
+    };
+
+    useEffect(() => {
+        callMemberHome();
+    }, []);
 
     return (
         <div>
