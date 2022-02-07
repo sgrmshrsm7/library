@@ -9,7 +9,6 @@ const Add_lib = () => {
 
     const [user, setUser] = useState({
         id: "",
-        qrdata: "",
         name: "",
         edition: "",
         author: "",
@@ -100,18 +99,6 @@ const Add_lib = () => {
                         placeholder="ID Number"
                         onChange={handleInputs}
                         value={user.id}
-                    />
-                </div>
-
-                <div class="icon">
-                    <input
-                        class="l-user"
-                        type="text"
-                        name="qrdata"
-                        id="qrdata"
-                        placeholder="QR Data"
-                        onChange={handleInputs}
-                        value={user.qrdata}
                     />
                 </div>
 

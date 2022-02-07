@@ -293,10 +293,10 @@ router.get("/librarian/updatefine", authenticatelib, async (req, res) => {
 // Librarian Add book
 router.post("/librarian/add", authenticatelib, async (req, res) => {
     // console.log(req.body);
-    const { id, qrdata, name, edition, author, publication } = req.body;
+    const { id, name, edition, author, publication } = req.body;
 
     // Checking if any field is empty
-    if (!id || !qrdata || !name || !edition || !author || !publication) {
+    if (!id || !name || !edition || !author || !publication) {
         return res.status(422).json({ error: "Empty field found" });
     }
 
@@ -308,7 +308,7 @@ router.post("/librarian/add", authenticatelib, async (req, res) => {
 
         const book = new Books({
             id: id,
-            qrdata: qrdata,
+            qrdata: "qr" + id.toString(),
             name: name,
             edition: edition,
             author: author,
@@ -576,7 +576,7 @@ router.post("/librarian/logout", async (req, res) => {
 // Librarian Searchbook
 router.post("/search/searchbook", async (req, res) => {
     // console.log(req.body);
-    const { name } = req.body;
+    var { name } = req.body;
 
     // Checking if any field is empty
     if (!name) {
@@ -584,17 +584,20 @@ router.post("/search/searchbook", async (req, res) => {
     }
 
     try {
+        name = name.toUpperCase();
         Books.find({ name }, function (err, docs) {
             if (!err) {
                 // console.log(docs);
-                res.status(200).json(docs);
+                return res.status(200).json(docs);
             } else {
                 throw err;
             }
         });
     } catch (error) {
         console.log(error);
+        return res.status(404).json({ error: "Book not found" });
     }
+    // return res.status(422).json({ error: "Not found" });
 });
 
 module.exports = router;

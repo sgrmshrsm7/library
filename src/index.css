@@ -380,3 +380,56 @@ td {
     height: auto;
     width: 100%;
 }
+
+.books {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* margin: 5% auto; */
+    width: 90%;
+}
+
+.book {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin: 5% auto;
+    width: 100%;
+    border-radius: 10px;
+    border: rgba(0, 0, 0, 0.3) 1px solid;
+    cursor: pointer;
+    font-size: 15pt;
+    /* line-height: 1.5; */
+    padding: 20px;
+    padding-left: 30px;
+    background-color: #555;
+    color: white;
+}
+
+.book:hover {
+    box-shadow: rgba(0, 0, 0, 0.8) 0 0 20px;
+}
+
+.bookname {
+    font-size: 18pt;
+    font-weight: bolder;
+    width: 100%;
+    text-align: center;
+}
+
+.bookresulthead {
+    font-size: 20pt;
+    font-weight: bolder;
+    width: 80%;
+    text-align: left;
+    margin-top: 50px;
+    color: #25d0ff;
+    display: flex;
+    align-items: center;
+}
+
+.book b {
+    color: #25d0ff;
+}
