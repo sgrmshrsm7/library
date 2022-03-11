@@ -135,9 +135,8 @@ const Faq_mem = () => {
                             <li>
                                 <b>C :</b> Mostly previous years’ questions. Any
                                 book of your choice can be used( Yashwant
-                                Kanetkar)
+                                Kanetkar).
                             </li>
-                            .
                         </ul>
                         Hope it helps :)
                     </div>
