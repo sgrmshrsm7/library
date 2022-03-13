@@ -437,3 +437,52 @@ td {
 .faqul {
     margin-top: 0px;
 }
+
+.askquestion {
+    /* margin-top: 50px; */
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content: center;
+    /* width: 60%; */
+    padding: 0 100px 0 100px;
+}
+
+.askhead {
+    text-align: left;
+    font-size: 25pt;
+    font-weight: bold;
+    color: #25d0ff;
+}
+
+.askques {
+    width: 80%;
+    margin: 0;
+    height: 60px;
+    font-size: 18pt;
+    padding: 10px;
+}
+.askform {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+    margin-bottom: 50px;
+}
+
+.askbutton {
+    background-color: #25d0ff;
+    color: white;
+    font-weight: bold;
+    font-size: 20pt;
+    width: 150px;
+    cursor: pointer;
+    /* text-align: center; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #777;
+    border-radius: 10px;
+    height: 60px;
+}

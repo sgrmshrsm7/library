@@ -43,8 +43,9 @@ const Search_name = () => {
             window.alert("No book found");
         } else {
             setBooks(data);
+            // console.log(data);
             if (data.length === 0) {
-                window.alert("No Book found");
+                window.alert("No Book returned");
             }
             //history.push("/librarian/home");
         }

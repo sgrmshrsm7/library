@@ -9,6 +9,7 @@ require("../db/conn");
 const Member = require("../model/memberSchema");
 const Librarian = require("../model/librarianSchema");
 const Books = require("../model/booksSchema");
+const Questions = require("../model/quesSchema");
 
 // Home page route
 router.get("/", (req, res) => {
@@ -141,7 +142,18 @@ router.get("/faq", authenticate, async (req, res) => {
         const { id } = req.body;
 
         // const memberLogin = await Member.findOne({ id });
-        res.json(req.rootUser);
+        try {
+            Questions.find({}, (err, ques) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.status(200).json(ques);
+                }
+            });
+        } catch (error) {
+            console.log(error);
+            res.status(400).json("Error");
+        }
     } catch (error) {
         console.log(error);
     }
@@ -573,6 +585,40 @@ router.post("/librarian/logout", async (req, res) => {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+function editDistDP(str1, str2) {
+    var m = str1.length;
+    var n = str2.length;
+    var dp = new Array(m + 1);
+
+    for (var i = 0; i < m + 1; i++) {
+        dp[i] = new Array(n + 1);
+    }
+
+    for (var i = 0; i < m + 1; i++) {
+        for (var j = 0; j < n + 1; j++) {
+            if (i == 0) {
+                dp[i][j] = j;
+            } else if (j == 0) {
+                dp[i][j] = i;
+            } else if (str1[i] == str2[j]) {
+                dp[i][j] = dp[i - 1][j - 1];
+            } else {
+                dp[i][j] =
+                    1 + Math.min(dp[i][j - 1], dp[i - 1][j], dp[i - 1][j - 1]);
+            }
+            if (
+                i > 1 &&
+                j > 1 &&
+                str1[i - 1] == str2[j - 2] &&
+                str1[i - 2] == str2[j - 1]
+            )
+                dp[i][j] = Math.min(dp[i][j], 1 + dp[i - 2][j - 2]);
+        }
+    }
+    // console.log(str1, str2, dp[m][n]);
+    return dp[m][n];
+}
+
 // Librarian Searchbook
 router.post("/search/searchbook", async (req, res) => {
     // console.log(req.body);
@@ -583,21 +629,73 @@ router.post("/search/searchbook", async (req, res) => {
         return res.status(422).json({ error: "Empty field found" });
     }
 
-    try {
-        name = name.toUpperCase();
-        Books.find({ name }, function (err, docs) {
-            if (!err) {
-                // console.log(docs);
-                return res.status(200).json(docs);
-            } else {
-                throw err;
+    name = name.toUpperCase();
+
+    // await Books.find({ name }, function (err, docs) {
+    //     if (!err) {
+    //         // console.log(docs);
+    //         return res.status(200).json(docs);
+    //     } else {
+    //         throw err;
+    //     }
+    // })
+    //     .clone()
+    //     .catch((err) => {
+    //         console.log(err);
+    //     });
+
+    await Books.find({}, function (err, docs) {
+        if (!err) {
+            var mincost = Infinity;
+            var champak = [];
+
+            for (var i = 0; i < docs.length; i++) {
+                var dist = editDistDP(docs[i].name.toString(), name.toString());
+                if (dist < mincost) {
+                    mincost = dist;
+                    champak = [docs[i]];
+                } else if (dist == mincost) {
+                    champak.push(docs[i]);
+                }
             }
+            return res.status(200).json(champak);
+        } else {
+            throw err;
+        }
+    })
+        .clone()
+        .catch((err) => {
+            console.log(err);
+            return res.status(404).json({ error: "Book not found" });
+        });
+
+    // return res.status(404).json({ error: "Book not found" });
+    // return res.status(422).json({ error: "Not found" });
+});
+
+router.post("/addquestion", authenticate, async (req, res) => {
+    // console.log(req.body);
+    const { id, ques } = req.body;
+
+    // Checking if any field is empty
+    if (!id || !ques) {
+        return res.status(422).json({ error: "Empty field found" });
+    }
+
+    try {
+        const question = new Questions({
+            studid: id,
+            ques: ques,
+            ans: "",
+        });
+
+        await question.save();
+        res.status(201).json({
+            message: "Question posted successfully",
         });
     } catch (error) {
         console.log(error);
-        return res.status(404).json({ error: "Book not found" });
     }
-    // return res.status(422).json({ error: "Not found" });
 });
 
 module.exports = router;
