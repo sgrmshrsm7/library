@@ -59,6 +59,10 @@ const Lib_home = () => {
             <Link to="/librarian/returnbook">
                 <div className="libHomeButton">Return Book</div>
             </Link>
+
+            <Link to="/librarian/answerfaq">
+                <div className="libHomeButton">Answer FAQ</div>
+            </Link>
             {/* <Link to="/search">
                 <div className="libHomeButton">Availability Of A Book</div>
             </Link> */}
