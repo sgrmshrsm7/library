@@ -10,6 +10,7 @@ const Member = require("../model/memberSchema");
 const Librarian = require("../model/librarianSchema");
 const Books = require("../model/booksSchema");
 const Questions = require("../model/quesSchema");
+const UnQuestions = require("../model/unanswered");
 
 // Home page route
 router.get("/", (req, res) => {
@@ -683,13 +684,60 @@ router.post("/addquestion", authenticate, async (req, res) => {
     }
 
     try {
-        const question = new Questions({
+        const question = new UnQuestions({
             studid: id,
             ques: ques,
-            ans: "",
         });
 
         await question.save();
+        res.status(201).json({
+            message: "Question posted successfully",
+        });
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+// Librarian FAQ
+router.get("/librarian/answerfaq", authenticatelib, async (req, res) => {
+    try {
+        const { id } = req.body;
+
+        // const memberLogin = await Member.findOne({ id });
+        try {
+            UnQuestions.find({}, (err, ques) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.status(200).json(ques);
+                }
+            });
+        } catch (error) {
+            console.log(error);
+            res.status(400).json("Error");
+        }
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+router.post("/librarian/answerfaq", authenticatelib, async (req, res) => {
+    // console.log(req.body);
+    const { ques, ans } = req.body;
+
+    // Checking if any field is empty
+    if (!ques || !ans) {
+        return res.status(422).json({ error: "Empty field found" });
+    }
+
+    try {
+        const question = new Questions({
+            ques: ques,
+            ans: ans,
+        });
+
+        await question.save();
+        await UnQuestions.deleteOne({ ques: ques });
         res.status(201).json({
             message: "Question posted successfully",
         });

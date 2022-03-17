@@ -486,3 +486,96 @@ td {
     border-radius: 10px;
     height: 60px;
 }
+
+textarea {
+    border: 1px solid #777;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 17pt;
+    font-weight: normal;
+    margin: 30px auto;
+    resize: none;
+    width: 450px;
+    height: 200px;
+}
+
+.noquestion {
+    font-size: 25pt;
+    font-weight: bold;
+    color: #25d0ff;
+    margin-top: 50px;
+    width: 100%;
+    text-align: center;
+}
+
+.searchimage {
+    width: 100%;
+    height: auto;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* align-items: center; */
+    padding: 100px;
+}
+
+.pehlabaxa {
+    margin: 0px;
+}
+
+.searchimgbuttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dusrabaxa {
+    margin: 0px;
+    width: 800px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.dusrabaxa img {
+    height: 400px;
+    width: auto;
+    margin: 30px auto;
+}
+.searchimgresult {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: #343642;
+    color: #25d0ff;
+    font-size: 30pt;
+    font-weight: bold;
+    /* margin: 50px 0; */
+    padding: 40px;
+}
+
+.searchimgresult1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: #343642;
+    color: #25d0ff;
+    font-size: 20pt;
+    font-weight: bold;
+    /* margin: 50px 0; */
+    padding: 40px;
+}
+
+.loading {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 30pt;
+    height: 600px;
+    width: 600px;
+    font-weight: bold;
+}

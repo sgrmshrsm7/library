@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 // define Schema
 var QuesSchema = mongoose.Schema({
-    studid: Number,
     ques: String,
     ans: String,
 });

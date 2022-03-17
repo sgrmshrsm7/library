@@ -8,12 +8,11 @@ const Ansfaq = () => {
     const { state, dispatch } = useContext(UserContext);
 
     const [user, setUser] = useState({
-        id: "",
-        name: "",
-        edition: "",
-        author: "",
-        publication: "",
+        ques: "",
+        ans: "",
     });
+
+    const [unquestions, setUnquestions] = useState([]);
 
     let name, value;
 
@@ -30,7 +29,7 @@ const Ansfaq = () => {
 
     const callMemberHome = async () => {
         try {
-            const res = await fetch("/librarian/add", {
+            const res = await fetch("/librarian/answerfaq", {
                 method: "GET",
                 headers: {
                     Accept: "application/json",
@@ -46,6 +45,7 @@ const Ansfaq = () => {
             }
 
             const data = await res.json();
+            setUnquestions(data);
 
             dispatch({
                 type: "USER",
@@ -63,7 +63,7 @@ const Ansfaq = () => {
 
     const loginUser = async (e) => {
         e.preventDefault();
-        const res = await fetch("/librarian/add", {
+        const res = await fetch("/librarian/answerfaq", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -80,79 +80,69 @@ const Ansfaq = () => {
         ) {
             window.alert("Invalid Credentials");
         } else {
-            window.alert("Book added");
-            history.push("/librarian/home");
+            window.alert("Question answered");
+            history.push("/librarian/answerfaq");
         }
     };
 
     return (
         <div>
+            {unquestions.length > 0 ? (
+                <table width="90%" cellpadding="10" cellspacing="10">
+                    <tr>
+                        <th></th>
+                        <th>
+                            Student ID<hr></hr>
+                        </th>
+                        <th>
+                            Question<hr></hr>
+                        </th>
+                    </tr>
+
+                    {unquestions.map((val) => {
+                        return (
+                            <tr>
+                                <td></td>
+                                <td>{val.studid}</td>
+                                <td>{val.ques}</td>
+                            </tr>
+                        );
+                    })}
+                </table>
+            ) : (
+                <div className="noquestion">No unanswered Questions!</div>
+            )}
+
             <form className="loginform" method="POST">
-                <div className="loginhead">Add New Book</div>
+                <div className="loginhead">Answer Question</div>
 
                 <div class="icon">
                     <input
                         class="l-user"
                         type="text"
-                        name="id"
-                        id="id"
-                        placeholder="ID Number"
+                        name="ques"
+                        id="ques"
+                        placeholder="Enter Question"
                         onChange={handleInputs}
-                        value={user.id}
+                        value={user.ques}
                     />
                 </div>
 
                 <div class="icon">
-                    <input
+                    <textarea
                         class="l-user"
                         type="text"
-                        name="name"
-                        id="name"
-                        placeholder="Name"
+                        name="ans"
+                        id="ans"
+                        placeholder="Answer"
                         onChange={handleInputs}
-                        value={user.name}
-                    />
-                </div>
-
-                <div class="icon">
-                    <input
-                        class="l-user"
-                        type="text"
-                        name="edition"
-                        id="edition"
-                        placeholder="Edition"
-                        onChange={handleInputs}
-                        value={user.edition}
-                    />
-                </div>
-
-                <div class="icon">
-                    <input
-                        class="l-user"
-                        type="text"
-                        name="author"
-                        id="author"
-                        placeholder="Author"
-                        onChange={handleInputs}
-                        value={user.author}
-                    />
-                </div>
-
-                <div class="icon">
-                    <input
-                        class="l-user"
-                        type="text"
-                        name="publication"
-                        id="publication"
-                        placeholder="Publication"
-                        onChange={handleInputs}
-                        value={user.publication}
+                        value={user.ans}
                     />
                 </div>
 
                 <input
                     type="submit"
-                    value="Add book"
+                    value="Answer Question"
                     name="m_login"
                     onClick={loginUser}
                 />
