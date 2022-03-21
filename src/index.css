@@ -515,7 +515,7 @@ textarea {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    /* align-items: center; */
+    align-items: flex-start;
     padding: 100px;
 }
 
@@ -554,6 +554,7 @@ textarea {
     font-weight: bold;
     /* margin: 50px 0; */
     padding: 40px;
+    border-radius: 20px 20px 0 0;
 }
 
 .searchimgresult1 {
@@ -567,6 +568,8 @@ textarea {
     font-weight: bold;
     /* margin: 50px 0; */
     padding: 40px;
+    width: 100%;
+    border-radius: 0 0 20px 20px;
 }
 
 .loading {
@@ -578,4 +581,10 @@ textarea {
     height: 600px;
     width: 600px;
     font-weight: bold;
+}
+
+.searchimgbutton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

@@ -746,4 +746,103 @@ router.post("/librarian/answerfaq", authenticatelib, async (req, res) => {
     }
 });
 
+//////////////////////////////////////////////////////// Search by image
+const Tesseract = require("tesseract.js");
+
+const capturedImage = async (req, res, next) => {
+    try {
+        const path = "./storage/ocr_image.jpeg"; // destination image path
+        let imgdata = req.body.img; // get img as base64
+        const base64Data = imgdata.replace(/^data:([A-Za-z-+/]+);base64,/, ""); // convert base64
+        fs.writeFileSync(path, base64Data, { encoding: "base64" }); // write img file
+
+        Tesseract.recognize("http://localhost:5000/img/ocr_image.jpeg", "eng", {
+            logger: (m) => console.log(m),
+        }).then(({ data: { text } }) => {
+            console.log(text);
+            return res.send({
+                image: imgdata,
+                path: path,
+                text: text,
+            });
+        });
+    } catch (e) {
+        next(e);
+    }
+};
+router.post("/capture", capturedImage);
+
+router.post("/upload", (req, res) => {
+    if (req.files) {
+        console.log(req.files);
+        var unggahFile = req.files.file;
+        var namaFile = unggahFile.name;
+        unggahFile.mv("./storage/" + namaFile, (err) => {
+            if (err) {
+                console.log(err);
+                res.send(err);
+            } else {
+                // console.log(namaFile)
+                // res.send(namaFile)
+                Tesseract.recognize(`./storage/${namaFile}`, "eng", {
+                    logger: (m) => console.log(m),
+                })
+                    .then(({ data: { text } }) => {
+                        console.log(text);
+
+                        return res.send({
+                            image: `http://localhost:5000/img/${namaFile}`,
+                            path: `http://localhost:5000/img/${namaFile}`,
+                            text: text,
+                        });
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            }
+        });
+    }
+});
+
+// Librarian Searchbook
+router.post("/search/searchbookimg", async (req, res) => {
+    // console.log(req.body);
+    var { name } = req.body;
+
+    // Checking if any field is empty
+    if (!name) {
+        return res.status(422).json({ error: "Empty field found" });
+    }
+
+    name = name.toUpperCase();
+
+    await Books.find({}, function (err, docs) {
+        if (!err) {
+            var mincost = Infinity;
+            var champak = [];
+
+            for (var i = 0; i < docs.length; i++) {
+                var dist = editDistDP(docs[i].name.toString(), name.toString());
+                if (dist < mincost) {
+                    mincost = dist;
+                    champak = [docs[i]];
+                } else if (dist == mincost) {
+                    champak.push(docs[i]);
+                }
+            }
+            return res.status(200).json(champak);
+        } else {
+            throw err;
+        }
+    })
+        .clone()
+        .catch((err) => {
+            console.log(err);
+            return res.status(404).json({ error: "Book not found" });
+        });
+
+    // return res.status(404).json({ error: "Book not found" });
+    // return res.status(422).json({ error: "Not found" });
+});
+
 module.exports = router;

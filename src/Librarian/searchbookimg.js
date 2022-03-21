@@ -15,6 +15,7 @@ const Search_img = () => {
     const [imgSrc, setImgSrc] = useState(null);
     const [textOcr, setTextOcr] = useState(null);
     const [load, setLoad] = useState(false);
+    const [books, setBooks] = useState(0);
     let fileInputRef = createRef();
 
     const capture = useCallback(() => {
@@ -47,7 +48,7 @@ const Search_img = () => {
         var formData = new FormData();
         formData.append("file", file);
         var config = {
-            headers: { "Content-Type": "multipart/form-data" },
+            headers: { "Content-Type": "application/json" },
         };
         return axios.post(url, formData, config).then((res) => {
             console.log(res.data);
@@ -55,6 +56,34 @@ const Search_img = () => {
             setImgSrc(res.data.image);
             setLoad(false);
         });
+    };
+
+    const loginUser = async (e) => {
+        e.preventDefault();
+        const res = await fetch("/search/searchbookimg", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ name: textOcr.toString() }),
+        });
+        const data = await res.json();
+        if (
+            !data ||
+            data.error ||
+            res.status === 400 ||
+            res.status === 404 ||
+            res.status === 422
+        ) {
+            window.alert("No book found");
+        } else {
+            setBooks(data);
+            // console.log(data);
+            if (data.length === 0) {
+                window.alert("No Book returned");
+            }
+            //history.push("/librarian/home");
+        }
     };
 
     return (
@@ -68,31 +97,9 @@ const Search_img = () => {
                             screenshotFormat="image/jpeg"
                         />
                         <div className="searchimgbuttons">
-                            {/* <Button
-                                size="big"
-                                onClick={capture}
-                                style={{ margin: 20 }}
-                                icon
-                                labelPosition="left"
-                                inverted
-                                color="green"
-                            >
-                                <Icon name="camera" />
-                                Capture
-                            </Button> */}
                             <div className="studHomeButton" onClick={capture}>
                                 Capture
                             </div>
-
-                            {/* <Button
-                                size="big"
-                                onClick={() => fileInputRef.current.click()}
-                                style={{ margin: 20 }}
-                                icon
-                                labelPosition="left"
-                                inverted
-                                color="blue"
-                            > */}
                             <div
                                 className="studHomeButton"
                                 onClick={() => fileInputRef.current.click()}
@@ -113,6 +120,48 @@ const Search_img = () => {
                             </div>
                         </div>
                     </center>
+
+                    {books != 0 ? (
+                        <>
+                            <div className="bookresulthead">
+                                <BiSearchAlt /> &nbsp;{books.length} results
+                                found
+                            </div>
+                            <div className="books">
+                                {books.map((val) => {
+                                    return (
+                                        <div className="book">
+                                            <div className="bookname">
+                                                {val.name}
+                                            </div>
+                                            <div>
+                                                <b>ID:</b> {val.id}
+                                            </div>
+                                            <div>
+                                                <b>Edition:</b> {val.edition}
+                                            </div>
+                                            <div>
+                                                <b>Author:</b> {val.author}
+                                            </div>
+                                            <div>
+                                                <b>Publication:</b>{" "}
+                                                {val.publication}
+                                            </div>
+                                            {val.status ? (
+                                                <div>
+                                                    <b>Not Available</b>
+                                                </div>
+                                            ) : (
+                                                <div>
+                                                    <b>Available</b>
+                                                </div>
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                            </div>{" "}
+                        </>
+                    ) : null}
                 </div>
 
                 <div className="dusrabaxa">
@@ -122,8 +171,21 @@ const Search_img = () => {
                         <>
                             <div className="searchimgresult"> Result </div>
                             <img alt="captured" src={imgSrc} />
-
-                            <div className="searchimgresult1">{textOcr}</div>
+                            <form method="POST">
+                                <input
+                                    className="searchimgresult1"
+                                    value={textOcr}
+                                    onChange={(e) => setTextOcr(e.target.value)}
+                                />
+                                <div className="searchimgbutton">
+                                    <input
+                                        type="submit"
+                                        value="Search"
+                                        name="s_sumbit"
+                                        onClick={loginUser}
+                                    />
+                                </div>
+                            </form>
                         </>
                     ) : (
                         <div className="searchimgresult">No data preview</div>
