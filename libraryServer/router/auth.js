@@ -748,6 +748,7 @@ router.post("/librarian/answerfaq", authenticatelib, async (req, res) => {
 
 //////////////////////////////////////////////////////// Search by image
 const Tesseract = require("tesseract.js");
+const fs = require("fs");
 
 const capturedImage = async (req, res, next) => {
     try {
