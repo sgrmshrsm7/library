@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../App";
+import Carousel from "react-bootstrap/Carousel";
 
 const Home_member = () => {
     const history = useHistory();
@@ -13,6 +14,7 @@ const Home_member = () => {
         yearOfJoining: 0,
         email: "",
     });
+    const [rbooks, setRbooks] = useState(0);
     const { state, dispatch } = useContext(UserContext);
 
     const callMemberHome = async () => {
@@ -33,8 +35,9 @@ const Home_member = () => {
             }
 
             const data = await res.json();
-            localStorage.setItem("userData", JSON.stringify(data));
-            setUserData(data);
+            localStorage.setItem("userData", JSON.stringify(data.user));
+            setUserData(data.user);
+            setRbooks(data.rbooks);
             dispatch({
                 type: "USER",
                 payload: true,
@@ -50,45 +53,86 @@ const Home_member = () => {
     }, []);
     return (
         <div className="studentHome">
-            <div className="loginhead">Issued books</div>
-            <div class="error-message" id="error-message">
-                <p id="error"></p>
-            </div>
-            <table width="90%" cellpadding="10" cellspacing="10">
-                <tr>
-                    <th></th>
-                    <th>
-                        Name of book<hr></hr>
-                    </th>
-                    <th>
-                        Edition<hr></hr>
-                    </th>
-                    <th>
-                        Author<hr></hr>
-                    </th>
-                    <th>
-                        Publication<hr></hr>
-                    </th>
-                    <th>
-                        Due Date<hr></hr>
-                    </th>
-                </tr>
-
-                {userData.booksIssued.map((val) => {
-                    return (
+            {userData.booksIssued.length === 0 ? (
+                <p className="nobookissued">No books issued</p>
+            ) : (
+                <>
+                    <div className="loginhead">Issued books</div>
+                    <table width="90%" cellpadding="10" cellspacing="10">
                         <tr>
-                            <td></td>
-                            <td>{val.name}</td>
-                            <td className="cellcenter">{val.edition}</td>
-                            <td>{val.author}</td>
-                            <td>{val.publication}</td>
-                            <td className="cellcenter">
-                                {val.duedate.substring(0, 10)}
-                            </td>
+                            <th></th>
+                            <th>
+                                Name of book<hr></hr>
+                            </th>
+                            <th>
+                                Edition<hr></hr>
+                            </th>
+                            <th>
+                                Author<hr></hr>
+                            </th>
+                            <th>
+                                Publication<hr></hr>
+                            </th>
+                            <th>
+                                Due Date<hr></hr>
+                            </th>
                         </tr>
-                    );
-                })}
-            </table>
+
+                        {userData.booksIssued.map((val) => {
+                            return (
+                                <tr>
+                                    <td></td>
+                                    <td>{val.name}</td>
+                                    <td className="cellcenter">
+                                        {val.edition}
+                                    </td>
+                                    <td>{val.author}</td>
+                                    <td>{val.publication}</td>
+                                    <td className="cellcenter">
+                                        {val.duedate.substring(0, 10)}
+                                    </td>
+                                </tr>
+                            );
+                        })}
+                    </table>
+                </>
+            )}
+
+            {rbooks != 0 ? (
+                <div>
+                    <div className="loginhead">Recommendations</div>
+                    <div className="books">
+                        {rbooks.map((val) => {
+                            return (
+                                <div className="book">
+                                    <div className="bookname">{val.name}</div>
+                                    <div>
+                                        <b>ID:</b> {val.id}
+                                    </div>
+                                    <div>
+                                        <b>Edition:</b> {val.edition}
+                                    </div>
+                                    <div>
+                                        <b>Author:</b> {val.author}
+                                    </div>
+                                    <div>
+                                        <b>Publication:</b> {val.publication}
+                                    </div>
+                                    {val.status ? (
+                                        <div>
+                                            <b>Not Available</b>
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <b>Available</b>
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>{" "}
+                </div>
+            ) : null}
 
             <div className="studentButtons">
                 <Link to="/member/reissue">

@@ -8,6 +8,7 @@ var BooksSchema = mongoose.Schema({
     edition: Number,
     author: String,
     publication: String,
+    tag: String,
     status: Boolean,
 });
 

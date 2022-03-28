@@ -588,3 +588,8 @@ textarea {
     justify-content: center;
     align-items: center;
 }
+
+.nobookissued {
+    font-size: 30pt;
+    font-weight: bold;
+}

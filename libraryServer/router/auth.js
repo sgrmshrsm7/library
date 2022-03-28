@@ -67,7 +67,33 @@ router.get("/member/home", authenticate, async (req, res) => {
         const { id } = req.body;
 
         // const memberLogin = await Member.findOne({ id });
-        res.json(req.rootUser);
+        console.log(req.rootUser);
+        const booksIssued = req.rootUser.booksIssued;
+
+        const rtags = new Set();
+        for (var i = 0; i < booksIssued.length; i++) {
+            rtags.add(booksIssued[i].tag);
+        }
+
+        var rbooks;
+
+        await Books.find(
+            { tag: { $in: Array.from(rtags) } },
+            function (err, docs) {
+                if (!err) {
+                    rbooks = docs;
+                } else {
+                    throw err;
+                }
+            }
+        )
+            .clone()
+            .catch((err) => {
+                console.log(err);
+                return res.status(404).json({ error: "Book not found" });
+            });
+
+        res.json({ user: req.rootUser, rbooks: rbooks });
     } catch (error) {
         console.log(error);
     }
@@ -475,6 +501,7 @@ router.post("/librarian/issuebook", authenticatelib, async (req, res) => {
                             edition: bookExist.edition,
                             author: bookExist.author,
                             publication: bookExist.publication,
+                            tag: bookExist.tag,
                             duedate: new Date(Date.now() + 12096e5),
                         };
 
