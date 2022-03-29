@@ -593,3 +593,72 @@ textarea {
     font-size: 30pt;
     font-weight: bold;
 }
+
+.rbooks {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* margin: 5% auto; */
+    width: 90vw;
+    margin-top: 100px;
+}
+
+.rbook {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin: auto;
+    width: 600px;
+    border-radius: 10px;
+    border: rgba(0, 0, 0, 0.3) 1px solid;
+    cursor: pointer;
+    font-size: 15pt;
+    /* line-height: 1.5; */
+    padding: 20px;
+    padding-left: 30px;
+    background-color: #555;
+    color: white;
+}
+
+.rbooksbutton {
+    /* padding: 10px 50px; */
+
+    background-color: #555;
+    color: white;
+    font-weight: bold;
+    font-size: 20pt;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* width: 300px; */
+    height: 70px;
+    width: 70px;
+    cursor: pointer;
+    text-align: center;
+    border: 1px solid #777;
+    border-radius: 50%;
+    margin: 30px auto;
+}
+
+.rbooksbutton:hover {
+    background-color: white;
+    color: #555;
+    box-shadow: #555 0 0 20px;
+}
+
+.ramesh {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    /* margin: 5% auto; */
+    width: 50vw;
+}
+
+.rhead {
+    color: #25d0ff;
+    font-size: 35pt;
+    font-weight: bolder;
+}

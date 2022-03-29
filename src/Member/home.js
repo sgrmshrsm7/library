@@ -2,9 +2,10 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../App";
-import Carousel from "react-bootstrap/Carousel";
+import { ActionKind, usePony } from "pony-props";
 
 const Home_member = () => {
+    const [rbooks, setRbooks] = useState(0);
     const history = useHistory();
     const [userData, setUserData] = useState({
         name: "",
@@ -14,7 +15,7 @@ const Home_member = () => {
         yearOfJoining: 0,
         email: "",
     });
-    const [rbooks, setRbooks] = useState(0);
+
     const { state, dispatch } = useContext(UserContext);
 
     const callMemberHome = async () => {
@@ -51,6 +52,80 @@ const Home_member = () => {
     useEffect(() => {
         callMemberHome();
     }, []);
+
+    const MyCarousel = () => {
+        const items = new Array(rbooks.length).fill(null).map((_, idx) => ({
+            id: idx,
+            ...rbooks[idx],
+        }));
+
+        const {
+            getSectionProps,
+            getHeadingProps,
+            getCarouselWrapperProps,
+            getCarouselProps,
+            getCarouselItemProps,
+            getButtonProps,
+            getAnnouncerProps,
+            state,
+        } = usePony({ numItems: items.length });
+
+        return (
+            <div {...getSectionProps()}>
+                <div className="ramesh">
+                    <h1 {...getHeadingProps()}></h1>
+                    <div {...getButtonProps(ActionKind.Previous)}>
+                        <div className="rbooksbutton">{"<"}</div>
+                    </div>
+                    <div {...getCarouselWrapperProps()}>
+                        <ul {...getCarouselProps()}>
+                            {items.map((item, idx) => (
+                                <li key={idx} {...getCarouselItemProps(idx)}>
+                                    <div className="rbook">
+                                        <div className="bookname">
+                                            {item.name}
+                                        </div>
+                                        <div>
+                                            <b>ID:</b> {item.id}
+                                        </div>
+                                        <div>
+                                            <b>Edition:</b> {item.edition}
+                                        </div>
+                                        <div>
+                                            <b>Author:</b> {item.author}
+                                        </div>
+                                        <div>
+                                            <b>Publication:</b>{" "}
+                                            {item.publication}
+                                        </div>
+                                        {item.status ? (
+                                            <div>
+                                                <b>Not Available</b>
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <b>Available</b>
+                                            </div>
+                                        )}
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <div {...getButtonProps(ActionKind.Next)}>
+                        <div className="rbooksbutton">{">"}</div>
+                    </div>
+                    <div {...getAnnouncerProps()}>
+                        <p>{`Item ${state.activeSlideIndex + 1} of ${
+                            items.length
+                        }`}</p>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
     return (
         <div className="studentHome">
             {userData.booksIssued.length === 0 ? (
@@ -98,39 +173,14 @@ const Home_member = () => {
                 </>
             )}
 
+            <hr />
+
             {rbooks != 0 ? (
-                <div>
-                    <div className="loginhead">Recommendations</div>
-                    <div className="books">
-                        {rbooks.map((val) => {
-                            return (
-                                <div className="book">
-                                    <div className="bookname">{val.name}</div>
-                                    <div>
-                                        <b>ID:</b> {val.id}
-                                    </div>
-                                    <div>
-                                        <b>Edition:</b> {val.edition}
-                                    </div>
-                                    <div>
-                                        <b>Author:</b> {val.author}
-                                    </div>
-                                    <div>
-                                        <b>Publication:</b> {val.publication}
-                                    </div>
-                                    {val.status ? (
-                                        <div>
-                                            <b>Not Available</b>
-                                        </div>
-                                    ) : (
-                                        <div>
-                                            <b>Available</b>
-                                        </div>
-                                    )}
-                                </div>
-                            );
-                        })}
-                    </div>{" "}
+                <div className="rbooks">
+                    <div className="rhead">Recommendations</div>
+                    <div className="ramesh">
+                        <MyCarousel />
+                    </div>
                 </div>
             ) : null}
 
