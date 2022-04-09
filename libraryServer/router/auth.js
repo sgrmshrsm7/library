@@ -11,6 +11,7 @@ const Librarian = require("../model/librarianSchema");
 const Books = require("../model/booksSchema");
 const Questions = require("../model/quesSchema");
 const UnQuestions = require("../model/unanswered");
+const nodemailer = require("nodemailer");
 
 // Home page route
 router.get("/", (req, res) => {
@@ -66,8 +67,8 @@ router.get("/member/home", authenticate, async (req, res) => {
     try {
         const { id } = req.body;
 
-        // const memberLogin = await Member.findOne({ id });
-        console.log(req.rootUser);
+        // console.log(req.rootUser);
+
         const booksIssued = req.rootUser.booksIssued;
 
         const rtags = new Set();
@@ -872,5 +873,99 @@ router.post("/search/searchbookimg", async (req, res) => {
     // return res.status(404).json({ error: "Book not found" });
     // return res.status(422).json({ error: "Not found" });
 });
+
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+const sendNotification = async (email, body) => {
+    const transporter = nodemailer.createTransport({
+        service: "hotmail",
+        auth: {
+            user: "libraryvnit@outlook.com",
+            pass: "saras12345",
+        },
+    });
+
+    const options = {
+        // It should be a string of sender email
+        from: "libraryvnit@outlook.com",
+
+        // Comma Separated list of mails
+        to: email,
+
+        // Subject of Email
+        subject: "Book Reissue Reminder",
+
+        // This would be the text of email body
+        text: body,
+    };
+
+    transporter.sendMail(options, function (error, info) {
+        if (error) throw Error(error);
+        console.log("Email Sent Successfully");
+        console.log(info);
+    });
+    await sleep(5000);
+};
+
+const checkToRemind = async () => {
+    var today = new Date(Date.now());
+
+    console.log("Today is " + today);
+    console.log(typeof today);
+
+    await Member.find({}, function (err, docs) {
+        if (!err) {
+            users = docs;
+            var booleya;
+            var chappu = "";
+            users.forEach((user) => {
+                booleya = true;
+                var books = user.booksIssued;
+                // var duebooks = "Books to be reissued: \n";
+                for (var i = 0; i < books.length && booleya; i++) {
+                    var diff = Math.abs(
+                        new Date(today) - new Date(books[i].duedate)
+                    );
+                    console.log("diff is " + diff);
+                    var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+                    console.log("diffDays is " + diffDays);
+                    // if (diffDays <= 100) {
+                    //     duebooks +=
+                    //         "Name: " +
+                    //         books[i].name +
+                    //         ", Due Date: " +
+                    //         books[i].duedate.toString().substring(0, 10) +
+                    //         "\n";
+                    // }
+                    if (diffDays <= 2) {
+                        booleya = false;
+                        if (chappu == "") chappu = user.email;
+                        else chappu += "," + user.email;
+                    }
+                }
+                console.log(chappu);
+            });
+            if (chappu != "") {
+                sendNotification(
+                    chappu,
+                    `Dear student,
+                    This is a reminder that one or more of your books are due renewal. Renew/Return your book(s) to avoid late fine.
+                    To check your due dates of books visit: "http://localhost:3000/member/home"`
+                );
+            }
+        } else {
+            throw err;
+        }
+    })
+        .clone()
+        .catch((err) => {
+            console.log(err);
+            return res.status(404).json({ error: "Book not found" });
+        });
+};
+
+setInterval(checkToRemind, 86400000);
 
 module.exports = router;
