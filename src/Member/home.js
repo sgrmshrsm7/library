@@ -5,7 +5,7 @@ import { UserContext } from "../App";
 import { ActionKind, usePony } from "pony-props";
 
 const Home_member = () => {
-    const [rbooks, setRbooks] = useState(0);
+    const [rbooks, setRbooks] = useState();
     const history = useHistory();
     const [userData, setUserData] = useState({
         name: "",
@@ -175,7 +175,7 @@ const Home_member = () => {
 
             <hr />
 
-            {rbooks != 0 ? (
+            {rbooks != null ? (
                 <div className="rbooks">
                     <div className="rhead">Recommendations</div>
                     <div className="ramesh">
