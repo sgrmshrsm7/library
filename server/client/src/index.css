@@ -36,7 +36,6 @@ body {
     justify-content: space-between;
     align-items: center;
     padding-right: 20px;
-    height: 100%;
 }
 
 .headercontent p {
@@ -662,79 +661,4 @@ textarea {
     color: #25d0ff;
     font-size: 35pt;
     font-weight: bolder;
-}
-
-@media only screen and (max-width: 768px) {
-    .header {
-        font-size: 1rem;
-    }
-    .headercontent p {
-        font-size: 1rem;
-    }
-    #allTheThings {
-        width: 90%;
-        max-width: 100%;
-        text-align: center;
-        /* margin: 12% auto; */
-        font-size: 1rem;
-        color: #94aab0;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    #member {
-        /* display: inline-block; */
-        padding: 20px 100px;
-    }
-
-    #verticalLine {
-        /* display: inline-block; */
-        border: 0;
-    }
-
-    #librarian {
-        padding: 20px 100px;
-        border-top: #343642 solid;
-    }
-
-    #member,
-    #librarian {
-        transition: all 0.2s ease-in-out;
-    }
-
-    #member:hover,
-    #librarian:hover {
-        transform: scale(1.1);
-    }
-
-    .loginform {
-        width: 95%;
-        margin: 50px auto;
-        padding: 50px 25px;
-    }
-
-    .loginhead {
-        font-size: 28pt;
-    }
-
-    input {
-        font-size: 15pt;
-        margin: 20px auto;
-        width: 250px;
-    }
-
-    input[type="submit"] {
-        padding: 10px 10px;
-        font-size: 15pt;
-        width: 150px;
-        cursor: pointer;
-    }
-
-    input[type="submit"]:hover {
-        background-color: white;
-        color: #25d0ff;
-        box-shadow: #25d0ff 0 0 20px;
-    }
 }
